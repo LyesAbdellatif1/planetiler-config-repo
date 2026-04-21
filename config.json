@@ -1,0 +1,19 @@
+{
+  "options": {
+    "paths": {
+      "root": "/data",
+      "fonts": "/data/fonts",
+      "styles": "/data/styles"
+    }
+  },
+  "styles": {
+    "basic": {
+      "style": "basic/style.json"
+    }
+  },
+  "data": {
+    "output": {
+      "mbtiles": "output.mbtiles"
+    }
+  }
+}
