@@ -15,6 +15,7 @@ Built with:
 - ✅ **Planetiler** - Vector tile generation from OSM data
 - ✅ **TileServer GL** - High-performance tile server
 - ✅ **OSM Bright Style** - Clean, customizable map style
+- ✅ **Maki Icons** - 600+ map icons and sprites
 - ✅ **OpenMapTiles** - Standardized tile schema
 - ✅ **Docker** - Easy deployment
 
@@ -26,10 +27,13 @@ Built with:
 # 1. Download Algerian OSM data (~200MB, 5 mins)
 bash scripts/download-algeria-data.sh
 
-# 2. Install TileServer GL
+# 2. Download sprites and icons (Maki icon set)
+npm run sprites
+
+# 3. Install TileServer GL
 npm install -g @mapbox/tileserver-gl-cli
 
-# 3. Start serving tiles (needs MBTiles file)
+# 4. Start serving tiles
 npm run tileserver
 ```
 
@@ -54,11 +58,14 @@ docker-compose up --build
 ├── scripts/
 │   ├── download-algeria-data.sh    # Download OSM data from Geofabrik
 │   ├── download-fonts.sh            # Download OpenMapTiles fonts
+│   ├── setup-sprites.sh             # Download sprites and Maki icons
 │   └── process-tiles.js             # Generate MBTiles from OSM data
 ├── data/
 │   ├── algeria-latest.osm.pbf      # Raw OSM data (downloaded)
 │   ├── algeria.mbtiles              # Vector tiles (generated)
-│   └── fonts/                       # Font files for text rendering
+│   ├── fonts/                       # Font files for text rendering
+│   ├── sprites/                     # Icon sprites (Maki icons)
+│   └── icons/                       # Icon definitions and categories
 ├── docs/
 │   └── REACT_NATIVE_SETUP.md        # React Native integration guide
 ├── osm-bright-style.json            # Customized map style
@@ -154,7 +161,10 @@ export default function AlgeriaMap() {
 ```bash
 npm run download      # Download Algerian OSM data
 npm run fonts        # Download OpenMapTiles fonts
+npm run sprites      # Download sprites and Maki icons (600+ icons)
 npm run tileserver   # Start TileServer GL
+npm run setup        # Complete setup (download data + sprites)
+npm run verify       # Verify all components are installed
 npm run docker-build # Build Docker image
 npm run docker-up    # Start Docker containers
 npm run docker-down  # Stop Docker containers
@@ -175,9 +185,10 @@ npm run docker-down  # Stop Docker containers
 - Tlemcen
 - And 100+ other cities/towns
 
-## 🎨 Included Style
+## 🎨 Included Style & Icons
 
-**OSM Bright** - Clean, bright map style with:
+### OSM Bright Style
+Clean, bright map style with:
 - Clear road hierarchy
 - Building footprints at high zoom
 - Water and landuse features
@@ -185,6 +196,39 @@ npm run docker-down  # Stop Docker containers
 - Optimal for mobile viewing
 
 Customizable via `osm-bright-style.json`
+
+### Maki Icons & Sprites
+The setup includes **600+ Maki icons** from MapBox for rendering POIs:
+
+**Icon Categories:**
+- 🍽️ **Food & Drink** - Restaurants, cafes, bars, bakeries
+- 🛍️ **Shops** - Retail stores, supermarkets, specialty shops
+- 🏦 **Finance** - Banks, ATMs, currency exchange
+- 💊 **Health** - Hospitals, pharmacies, clinics
+- 🚗 **Transport** - Parking, fuel, bus, train, airport
+- 🏨 **Accommodation** - Hotels, hostels, guest houses
+- 🎭 **Entertainment** - Museums, attractions, theaters
+- 📚 **Education** - Schools, universities, libraries
+- 🏛️ **Services** - Post offices, police, fire stations
+- 🌳 **Nature** - Parks, viewpoints, hiking trails
+
+**Features:**
+- Standard (15px) and high-resolution (@2x) versions
+- Automatic Retina/high-DPI support
+- 600+ pre-made icons
+- Zoom-based icon sizing
+- Dynamic color support
+- Full MapLibre GL integration
+
+Setup with:
+```bash
+npm run sprites
+```
+
+**Documentation:**
+- [SPRITES_AND_ICONS.md](./docs/SPRITES_AND_ICONS.md) - Comprehensive sprite guide
+- [ICON_REFERENCE.md](./docs/ICON_REFERENCE.md) - Complete icon catalog
+- [REACT_NATIVE_SETUP.md](./docs/REACT_NATIVE_SETUP.md) - React Native integration examples
 
 ## 🔧 Configuration
 

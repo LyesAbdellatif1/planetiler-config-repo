@@ -7,6 +7,7 @@
   "scripts": {
     "download": "bash scripts/download-algeria-data.sh",
     "fonts": "bash scripts/download-fonts.sh",
+    "sprites": "bash scripts/setup-sprites.sh",
     "process-tiles": "node scripts/process-tiles.js",
     "tileserver": "tileserver-gl --config tileserver-gl-config.json",
     "tileserver:dev": "tileserver-gl --config tileserver-gl-config.json --verbose",
@@ -15,7 +16,8 @@
     "docker-down": "docker-compose down",
     "docker-logs": "docker-compose logs -f tileserver",
     "docker-clean": "docker-compose down -v && docker rmi algeria-tileserver:latest",
-    "setup": "npm run download && echo '✓ Algerian OSM data ready. Run: npm run tileserver'",
+    "setup": "bash scripts/download-algeria-data.sh && bash scripts/setup-sprites.sh && echo '✓ Setup complete! Run: npm run tileserver'",
+    "verify": "bash scripts/verify-setup.sh",
     "health": "curl -s http://localhost:8080/data | jq . || echo 'TileServer not running'"
   },
   "keywords": [

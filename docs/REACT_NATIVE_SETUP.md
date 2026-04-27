@@ -354,6 +354,150 @@ If you want to use specific layers from your tiles:
 3. Use layer filtering to show only relevant features
 4. Implement map bounds to avoid loading unnecessary data
 
+## Using Sprites and Icons
+
+Your TileServer GL includes sprite sheets with 600+ icons (Maki icons). Add icons to your map:
+
+### Adding POI Icons to Map
+
+```jsx
+import MapLibGL from '@react-native-mapbox-gl/maps';
+
+export default function AlgeriaMapWithIcons() {
+  const styleURL = 'http://192.168.1.X:8080/styles/osm-bright/style.json';
+
+  // Custom style with POI icons
+  const customStyle = {
+    version: 8,
+    name: 'Algeria with POI Icons',
+    sprite: 'http://192.168.1.X:8080/sprites/osm-bright',
+    sources: { /* ... */ },
+    layers: [
+      // ... existing layers ...
+      {
+        id: 'poi-icons',
+        type: 'symbol',
+        source: 'openmaptiles',
+        'source-layer': 'poi',
+        minzoom: 12,
+        layout: {
+          'icon-image': ['concat', ['get', 'maki'], '-15'],
+          'icon-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            12, 0.8,
+            15, 1.0,
+            18, 1.3
+          ],
+          'icon-allow-overlap': false,
+          'icon-anchor': 'bottom',
+          'text-field': ['get', 'name'],
+          'text-font': ['Open Sans Regular'],
+          'text-size': 12,
+          'text-offset': [0, 1.2],
+          'text-anchor': 'top'
+        },
+        paint: {
+          'text-color': '#626262',
+          'text-halo-color': '#ffffff',
+          'text-halo-width': 1.2
+        }
+      }
+    ]
+  };
+
+  return (
+    <View style={styles.container}>
+      <MapLibGL.MapView
+        styleURL={styleURL}
+        centerCoordinate={[5.5, 28.0]}
+        zoomLevel={8}
+      >
+        <MapLibGL.Camera
+          centerCoordinate={[5.5, 28.0]}
+          zoomLevel={8}
+        />
+      </MapLibGL.MapView>
+    </View>
+  );
+}
+```
+
+### Icon Categories Available
+
+Common icons included in your sprite:
+
+**Food & Drink:**
+- `restaurant-15`, `cafe-15`, `bar-15`, `bakery-15`
+
+**Shops:**
+- `shop-15`, `supermarket-15`, `bank-15`, `atm-15`
+
+**Accommodation:**
+- `hotel-15`, `hostel-15`, `guest_house-15`
+
+**Tourism:**
+- `museum-15`, `attraction-15`, `zoo-15`, `viewpoint-15`
+
+**Transport:**
+- `bus-15`, `train-15`, `airport-15`, `parking-15`, `fuel-15`
+
+**Services:**
+- `hospital-15`, `pharmacy-15`, `school-15`, `post-15`, `police-15`
+
+**Icon Sizes:** `-11` (small), `-15` (medium), `-22` (large)
+
+### Filtering Icons by Type
+
+Show only specific POI types:
+
+```jsx
+{
+  id: 'restaurant-icons',
+  type: 'symbol',
+  source: 'openmaptiles',
+  'source-layer': 'poi',
+  filter: ['==', 'class', 'restaurant'],
+  layout: {
+    'icon-image': 'restaurant-15',
+    'icon-size': 1.0,
+    'text-field': ['get', 'name'],
+    'text-font': ['Open Sans Regular'],
+    'text-size': 12,
+    'text-offset': [0, 1.2],
+    'text-anchor': 'top'
+  }
+}
+```
+
+### Custom Icon Colors
+
+Color icons using the paint property with filters:
+
+```jsx
+{
+  id: 'poi-icons-colored',
+  type: 'symbol',
+  source: 'openmaptiles',
+  'source-layer': 'poi',
+  layout: {
+    'icon-image': ['concat', ['get', 'maki'], '-15'],
+    'icon-size': 1.0
+  },
+  paint: {
+    'icon-color': [
+      'match',
+      ['get', 'class'],
+      'restaurant', '#d97200',  // Orange for restaurants
+      'hotel', '#5d60be',       // Blue for hotels
+      'shop', '#76a723',        // Green for shops
+      '#626262'                 // Default gray
+    ]
+  }
+}
+```
+
 ## Performance Tips
 
 1. **Limit zoom levels**: Only show detailed features at appropriate zoom levels
@@ -361,6 +505,7 @@ If you want to use specific layers from your tiles:
 3. **Cluster markers**: Use clustering for large marker datasets
 4. **Optimize style**: Simplify paint properties and use efficient expressions
 5. **Cache tiles**: TileServer GL caches tiles; configure appropriate cache times
+6. **Icon sizing**: Use `icon-size` interpolation to scale icons by zoom level
 
 ## References
 
