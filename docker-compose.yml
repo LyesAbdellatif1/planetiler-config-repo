@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  tileserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./osm-bright-style.json:/app/osm-bright-style.json
+      - ./tileserver-gl-config.json:/app/tileserver-gl-config.json
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/data"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
