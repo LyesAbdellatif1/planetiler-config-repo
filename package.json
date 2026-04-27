@@ -1,0 +1,49 @@
+{
+  "name": "algeria-tileserver",
+  "version": "1.0.0",
+  "description": "TileServer GL setup for Algerian OpenStreetMap data with React Native MapLibre integration",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "download": "bash scripts/download-algeria-data.sh",
+    "fonts": "bash scripts/download-fonts.sh",
+    "sprites": "bash scripts/setup-sprites.sh",
+    "process-tiles": "node scripts/process-tiles.js",
+    "tileserver": "tileserver-gl --config tileserver-gl-config.json",
+    "tileserver:dev": "tileserver-gl --config tileserver-gl-config.json --verbose",
+    "docker-build": "docker build -t algeria-tileserver:latest .",
+    "docker-up": "docker-compose up -d",
+    "docker-down": "docker-compose down",
+    "docker-logs": "docker-compose logs -f tileserver",
+    "docker-clean": "docker-compose down -v && docker rmi algeria-tileserver:latest",
+    "setup": "bash scripts/download-algeria-data.sh && bash scripts/setup-sprites.sh && echo '✓ Setup complete! Run: npm run tileserver'",
+    "verify": "bash scripts/verify-setup.sh",
+    "health": "curl -s http://localhost:8080/data | jq . || echo 'TileServer not running'"
+  },
+  "keywords": [
+    "tileserver",
+    "maplibre",
+    "react-native",
+    "openstreetmap",
+    "algeria",
+    "tiles",
+    "geospatial",
+    "mapping"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LyesAbdellatif1/planetiler-config-repo"
+  },
+  "devDependencies": {
+    "@mapbox/tileserver-gl-cli": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "optionalDependencies": {
+    "docker": "*",
+    "docker-compose": "*"
+  }
+}

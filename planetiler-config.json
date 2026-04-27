@@ -1,0 +1,75 @@
+{
+  "options": {
+    "path": {
+      "root": "./data",
+      "fonts": "./data/fonts",
+      "styles": "./data/styles"
+    },
+    "bounds": [2.0, 18.0, 9.0, 37.0],
+    "force": false,
+    "minzoom": 0,
+    "maxzoom": 14,
+    "compress": "gzip",
+    "database": "rocksdb",
+    "log_interval": 10000000
+  },
+  "layers": [
+    {
+      "id": "landuse",
+      "source": "osm",
+      "source_layer": "landuse",
+      "filter": ["!=", "class", "wood"]
+    },
+    {
+      "id": "water",
+      "source": "osm",
+      "source_layer": "water"
+    },
+    {
+      "id": "natural",
+      "source": "osm",
+      "source_layer": "natural"
+    },
+    {
+      "id": "building",
+      "source": "osm",
+      "source_layer": "building"
+    },
+    {
+      "id": "road",
+      "source": "osm",
+      "source_layer": "road"
+    },
+    {
+      "id": "railway",
+      "source": "osm",
+      "source_layer": "railway"
+    },
+    {
+      "id": "boundary",
+      "source": "osm",
+      "source_layer": "boundary"
+    },
+    {
+      "id": "aeroway",
+      "source": "osm",
+      "source_layer": "aeroway"
+    },
+    {
+      "id": "poi",
+      "source": "osm",
+      "source_layer": "poi"
+    }
+  ],
+  "data": {
+    "sources": {
+      "osm": {
+        "type": "osm.pbf",
+        "url": "geofabrik:algeria"
+      }
+    },
+    "output": {
+      "mbtiles": "algeria.mbtiles"
+    }
+  }
+}
