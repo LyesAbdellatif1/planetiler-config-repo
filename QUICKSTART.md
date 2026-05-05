@@ -24,6 +24,9 @@ bash scripts/download-algeria-data.sh
 
 Downloads Algerian OpenStreetMap data (~200MB).
 
+This is the command to use : 
+& "C:\Program Files\Git\bin\bash.exe" scripts/download-algeria-data.sh
+
 ## Step 3: Install TileServer GL (1 minute)
 
 ```bash
