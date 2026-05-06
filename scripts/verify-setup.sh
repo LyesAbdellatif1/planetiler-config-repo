@@ -51,7 +51,7 @@ echo ""
 echo "3. Checking configuration files..."
 CONFIG_FILES=(
     "tileserver-gl-config.json"
-    "osm-bright-style.json"
+    "osm-liberty-style.json"
     "planetiler-config.json"
     "docker-compose.yml"
     "Dockerfile"

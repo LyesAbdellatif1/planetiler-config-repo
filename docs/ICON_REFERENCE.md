@@ -420,7 +420,7 @@ Visit [Maki Editor](https://labs.mapbox.com/maki/) to browse all 600+ icons visu
 ### Method 2: Check Sprite Metadata
 
 ```bash
-curl http://localhost:8080/sprites/osm-bright.json | jq 'keys[]'
+curl http://localhost:8080/sprites/osm-liberty.json | jq 'keys[]'
 ```
 
 This lists all available icon names.
@@ -458,7 +458,7 @@ To color icons dynamically based on data:
 
 ```bash
 # Check if icon exists
-curl http://localhost:8080/sprites/osm-bright.json | jq '.["restaurant-15"]'
+curl http://localhost:8080/sprites/osm-liberty.json | jq '.["restaurant-15"]'
 ```
 
 ### Wrong Icon Size

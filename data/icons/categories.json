@@ -1,0 +1,51 @@
+﻿{
+  "amenity": {
+    "shop": "shop",
+    "supermarket": "shop",
+    "bakery": "shop",
+    "restaurant": "restaurant",
+    "cafe": "cafe",
+    "bar": "bar",
+    "pub": "bar",
+    "hotel": "hotel",
+    "guest_house": "hotel",
+    "hostel": "hotel",
+    "parking": "parking",
+    "fuel": "fuel",
+    "gas_station": "fuel",
+    "hospital": "hospital",
+    "clinic": "hospital",
+    "pharmacy": "hospital",
+    "school": "school",
+    "university": "school",
+    "post_office": "post",
+    "bank": "bank",
+    "atm": "bank",
+    "fountain": "attraction",
+    "theatre": "attraction",
+    "museum": "museum",
+    "zoo": "zoo",
+    "cinema": "attraction",
+    "library": "school"
+  },
+  "tourism": {
+    "hotel": "hotel",
+    "guest_house": "hotel",
+    "hostel": "hotel",
+    "attraction": "attraction",
+    "museum": "museum",
+    "zoo": "zoo",
+    "viewpoint": "attraction",
+    "picnic_site": "park",
+    "information": "information"
+  },
+  "transport": {
+    "bus_stop": "bus",
+    "bus_station": "bus",
+    "train_station": "train",
+    "airport": "airport",
+    "ferry_terminal": "ferry",
+    "taxi": "taxi",
+    "parking": "parking"
+  }
+}

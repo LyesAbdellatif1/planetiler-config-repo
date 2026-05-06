@@ -60,8 +60,8 @@ UPDATED FILES:
    - Post offices, police, services (40+)
 
 ✅ Standard & High-DPI Support
-   - osm-bright.png (~80KB)
-   - osm-bright@2x.png (~320KB)
+   - osm-liberty.png (~80KB)
+   - osm-liberty@2x.png (~320KB)
    - Automatic Retina selection
 
 ✅ Icon Sizes
@@ -89,7 +89,7 @@ Step 3: Access in Browser
 http://localhost:8080
 
 Step 4: Check Sprites
-http://localhost:8080/sprites/osm-bright.json
+http://localhost:8080/sprites/osm-liberty.json
 
 ════════════════════════════════════════════════════════════════════════════════
 💻 USAGE IN MAP STYLE
@@ -97,7 +97,7 @@ http://localhost:8080/sprites/osm-bright.json
 
 {
   "version": 8,
-  "sprite": "http://localhost:8080/sprites/osm-bright",
+  "sprite": "http://localhost:8080/sprites/osm-liberty",
   "sources": { ... },
   "layers": [
     {
@@ -119,7 +119,7 @@ http://localhost:8080/sprites/osm-bright.json
 ════════════════════════════════════════════════════════════════════════════════
 
 <MapLibGL.MapView
-  styleURL="http://192.168.1.X:8080/styles/osm-bright/style.json"
+  styleURL="http://192.168.1.X:8080/styles/osm-liberty/style.json"
   centerCoordinate={[5.5, 28.0]}
   zoomLevel={8}
 >
@@ -152,10 +152,10 @@ Your project now includes:
 
 data/
 ├── sprites/
-│   ├── osm-bright.png          Standard sprite sheet
-│   ├── osm-bright.json         Metadata
-│   ├── osm-bright@2x.png       High-DPI version
-│   ├── osm-bright@2x.json      High-DPI metadata
+│   ├── osm-liberty.png          Standard sprite sheet
+│   ├── osm-liberty.json         Metadata
+│   ├── osm-liberty@2x.png       High-DPI version
+│   ├── osm-liberty@2x.json      High-DPI metadata
 │   └── README.md               Sprite documentation
 └── icons/
     ├── iconset.json            Icon definitions
@@ -182,14 +182,14 @@ npm run docker-up      # Start with Docker
 Once TileServer GL is running, access sprites at:
 
 Local:
-  http://localhost:8080/sprites/osm-bright.json
-  http://localhost:8080/sprites/osm-bright.png
-  http://localhost:8080/sprites/osm-bright@2x.json
-  http://localhost:8080/sprites/osm-bright@2x.png
+  http://localhost:8080/sprites/osm-liberty.json
+  http://localhost:8080/sprites/osm-liberty.png
+  http://localhost:8080/sprites/osm-liberty@2x.json
+  http://localhost:8080/sprites/osm-liberty@2x.png
 
 Remote (replace 192.168.1.X with your server IP):
-  http://192.168.1.X:8080/sprites/osm-bright.json
-  http://192.168.1.X:8080/sprites/osm-bright.png
+  http://192.168.1.X:8080/sprites/osm-liberty.json
+  http://192.168.1.X:8080/sprites/osm-liberty.png
 
 ════════════════════════════════════════════════════════════════════════════════
 ✨ KEY FEATURES
@@ -294,11 +294,11 @@ Icons:
 
 4. Add POI Layer
    Copy from: data/icons/poi-layers.json
-   Add to: osm-bright-style.json
+   Add to: osm-liberty-style.json
 
 5. Test
    Visit: http://localhost:8080
-   Check: /sprites/osm-bright.json
+   Check: /sprites/osm-liberty.json
 
 6. Deploy
    Use Docker or your hosting platform

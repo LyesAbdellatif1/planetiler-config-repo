@@ -68,7 +68,7 @@ docker-compose up --build
 │   └── icons/                       # Icon definitions and categories
 ├── docs/
 │   └── REACT_NATIVE_SETUP.md        # React Native integration guide
-├── osm-bright-style.json            # Customized map style
+├── osm-liberty-style.json            # Customized map style
 ├── tileserver-gl-config.json        # TileServer GL configuration
 ├── planetiler-config.json           # Planetiler processing config
 ├── TILESERVER_SETUP.md              # Detailed setup guide
@@ -148,7 +148,7 @@ import MapLibGL from '@react-native-mapbox-gl/maps';
 export default function AlgeriaMap() {
   return (
     <MapLibGL.MapView
-      styleURL="http://192.168.1.X:8080/styles/osm-bright/style.json"
+      styleURL="http://192.168.1.X:8080/styles/osm-liberty/style.json"
       centerCoordinate={[5.5, 28.0]}
       zoomLevel={4}
     />
@@ -195,7 +195,7 @@ Clean, bright map style with:
 - Multilingual place labels
 - Optimal for mobile viewing
 
-Customizable via `osm-bright-style.json`
+Customizable via `osm-liberty-style.json`
 
 ### Maki Icons & Sprites
 The setup includes **600+ Maki icons** from MapBox for rendering POIs:
@@ -242,7 +242,7 @@ Edit `tileserver-gl-config.json`:
   "allow_cors": true,
   "cache": 3600,
   "styles": {
-    "osm-bright": { /* style config */ }
+    "osm-liberty": { /* style config */ }
   }
 }
 ```
@@ -257,7 +257,7 @@ Edit `planetiler-config.json` to customize:
 
 ### Style Customization
 
-Edit `osm-bright-style.json` to:
+Edit `osm-liberty-style.json` to:
 - Change colors and fonts
 - Add/remove layers
 - Adjust feature visibility
@@ -279,7 +279,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import MapLibGL from '@react-native-mapbox-gl/maps';
 
-const STYLE_URL = 'http://192.168.1.X:8080/styles/osm-bright/style.json';
+const STYLE_URL = 'http://192.168.1.X:8080/styles/osm-liberty/style.json';
 
 export default function App() {
   return (
@@ -368,7 +368,7 @@ bash scripts/download-algeria-data.sh
 
 1. Verify TileServer is running: `curl http://localhost:8080`
 2. Check network connectivity from device
-3. Verify style URL format: `http://IP:8080/styles/osm-bright/style.json`
+3. Verify style URL format: `http://IP:8080/styles/osm-liberty/style.json`
 4. Enable CORS in config: `"allow_cors": true`
 
 ### Issue: "Port 8080 already in use"

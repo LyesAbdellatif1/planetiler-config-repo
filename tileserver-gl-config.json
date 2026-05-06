@@ -1,13 +1,17 @@
 {
   "options": {
     "styles": {
-      "osm-bright": {
+      "osm-liberty": {
         "tilejson": "2.2.0",
         "name": "OSM Bright",
         "attribution": "© OpenStreetMap contributors",
         "minzoom": 0,
         "maxzoom": 14,
-        "center": [5.5, 28.0, 4],
+        "center": [
+          5.5,
+          28.0,
+          4
+        ],
         "layers": [
           {
             "id": "background",
@@ -36,12 +40,33 @@
             "source": "openmaptiles",
             "source-layer": "road",
             "type": "line",
-            "filter": ["==", "class", "primary"],
+            "filter": [
+              "==",
+              "class",
+              "primary"
+            ],
             "paint": {
               "line-color": "#ffd966",
               "line-width": {
                 "base": 1.2,
-                "stops": [[5, 0.5], [7, 1], [10, 2], [13, 3]]
+                "stops": [
+                  [
+                    5,
+                    0.5
+                  ],
+                  [
+                    7,
+                    1
+                  ],
+                  [
+                    10,
+                    2
+                  ],
+                  [
+                    13,
+                    3
+                  ]
+                ]
               }
             }
           },
@@ -50,12 +75,29 @@
             "source": "openmaptiles",
             "source-layer": "road",
             "type": "line",
-            "filter": ["==", "class", "secondary"],
+            "filter": [
+              "==",
+              "class",
+              "secondary"
+            ],
             "paint": {
               "line-color": "#ffed99",
               "line-width": {
                 "base": 1.2,
-                "stops": [[6, 0.3], [8, 0.8], [11, 1.5]]
+                "stops": [
+                  [
+                    6,
+                    0.3
+                  ],
+                  [
+                    8,
+                    0.8
+                  ],
+                  [
+                    11,
+                    1.5
+                  ]
+                ]
               }
             }
           },
@@ -64,12 +106,25 @@
             "source": "openmaptiles",
             "source-layer": "road",
             "type": "line",
-            "filter": ["!=", "class", "primary"],
+            "filter": [
+              "!=",
+              "class",
+              "primary"
+            ],
             "paint": {
               "line-color": "#ffffff",
               "line-width": {
                 "base": 1.2,
-                "stops": [[8, 0.3], [11, 0.8]]
+                "stops": [
+                  [
+                    8,
+                    0.3
+                  ],
+                  [
+                    11,
+                    0.8
+                  ]
+                ]
               }
             }
           },
@@ -88,9 +143,15 @@
             "source-layer": "place",
             "type": "symbol",
             "layout": {
-              "text-field": ["get", "name"],
+              "text-field": [
+                "get",
+                "name"
+              ],
               "text-size": 12,
-              "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"]
+              "text-font": [
+                "Open Sans Regular",
+                "Arial Unicode MS Regular"
+              ]
             },
             "paint": {
               "text-color": "#333333",

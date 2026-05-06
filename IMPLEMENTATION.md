@@ -25,10 +25,10 @@ Complete implementation of a production-ready tileserver for serving Algerian Op
   - Port: 8080
   - CORS enabled for cross-origin requests
   - Caching configured (1 hour)
-  - Style: osm-bright
+  - Style: osm-liberty
 
 #### Style
-- **`osm-bright-style.json`** - Customized OSM Bright GL style
+- **`osm-liberty-style.json`** - Customized OSM Bright GL style
   - 23 layers covering all map features
   - Optimized for mobile viewing
   - Multilingual place labels
@@ -143,7 +143,7 @@ Complete implementation of a production-ready tileserver for serving Algerian Op
 │  Endpoints:                                                      │
 │  /                          → Web interface                      │
 │  /data/algeria/{z}/{x}/{y}  → Vector tiles                      │
-│  /styles/osm-bright         → Style JSON                        │
+│  /styles/osm-liberty         → Style JSON                        │
 │  /data/glyphs/{font}/{range}→ Font glyphs                       │
 └─────────────────────────────────────────────────────────────────┘
             │
@@ -153,7 +153,7 @@ Complete implementation of a production-ready tileserver for serving Algerian Op
 │  ┌────────────────────────────────────────────────────────┐     │
 │  │  MapLibre Native (React Native)                        │     │
 │  │  - Receives vectors from TileServer                    │     │
-│  │  - Applies osm-bright style                            │     │
+│  │  - Applies osm-liberty style                            │     │
 │  │  - Renders on native OpenGL                            │     │
 │  │  - Smooth interactions (pan, zoom, rotate)             │     │
 │  └────────────────────────────────────────────────────────┘     │
@@ -257,7 +257,7 @@ Complete implementation of a production-ready tileserver for serving Algerian Op
 
 **For Developers:**
 - `tileserver-gl-config.json` - Server behavior
-- `osm-bright-style.json` - Map appearance
+- `osm-liberty-style.json` - Map appearance
 - `planetiler-config.json` - Data processing
 
 **For DevOps:**

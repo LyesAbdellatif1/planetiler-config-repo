@@ -72,7 +72,7 @@ Choose based on what you need:
 ├── docs/
 │   └── REACT_NATIVE_SETUP.md       ← Mobile integration
 │
-├── osm-bright-style.json           ← Map style (customizable!)
+├── osm-liberty-style.json           ← Map style (customizable!)
 ├── tileserver-gl-config.json       ← Server config
 ├── planetiler-config.json          ← Tile processing config
 ├── package.json                    ← NPM scripts
@@ -97,7 +97,7 @@ npm run tileserver
 3. Copy one of the 3 examples
 
 ### "Customize the map colors"
-1. Edit: `osm-bright-style.json`
+1. Edit: `osm-liberty-style.json`
 2. Change colors (search for `fill-color`, `line-color`)
 3. Refresh browser
 

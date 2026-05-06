@@ -1,0 +1,40 @@
+﻿{
+  "icons": {
+    "poi": {
+      "shop": "shop",
+      "restaurant": "restaurant",
+      "cafe": "cafe",
+      "bar": "bar",
+      "hotel": "hotel",
+      "parking": "parking",
+      "fuel": "fuel",
+      "hospital": "hospital",
+      "school": "school",
+      "post": "post",
+      "bank": "bank",
+      "attraction": "attraction",
+      "museum": "museum",
+      "zoo": "zoo"
+    },
+    "transportation": {
+      "bus": "bus",
+      "train": "train",
+      "airport": "airport",
+      "ferry": "ferry",
+      "taxi": "taxi"
+    },
+    "infrastructure": {
+      "water": "water",
+      "power": "power",
+      "construction": "construction"
+    }
+  },
+  "colors": {
+    "primary": "#5d60be",
+    "secondary": "#4898ff",
+    "accent": "#d97200",
+    "danger": "#ba3827",
+    "success": "#76a723",
+    "warning": "#d97200"
+  }
+}

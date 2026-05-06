@@ -16,10 +16,10 @@ Sprites are sprite sheets containing multiple icon images. They're used to effic
 ```
 data/
 ├── sprites/
-│   ├── osm-bright.png          # Standard resolution sprite sheet
-│   ├── osm-bright.json         # Sprite metadata
-│   ├── osm-bright@2x.png       # High-DPI sprite sheet
-│   ├── osm-bright@2x.json      # High-DPI metadata
+│   ├── osm-liberty.png          # Standard resolution sprite sheet
+│   ├── osm-liberty.json         # Sprite metadata
+│   ├── osm-liberty@2x.png       # High-DPI sprite sheet
+│   ├── osm-liberty@2x.json      # High-DPI metadata
 │   └── README.md               # Sprite documentation
 └── icons/
     ├── iconset.json            # Icon definitions and colors
@@ -43,8 +43,8 @@ This will:
 4. Generate documentation
 
 Expected downloads:
-- `osm-bright.png` (~80KB)
-- `osm-bright@2x.png` (~320KB)
+- `osm-liberty.png` (~80KB)
+- `osm-liberty@2x.png` (~320KB)
 - Maki icon set (optional, for customization)
 
 ### Step 2: Verify Installation
@@ -52,22 +52,22 @@ Expected downloads:
 Check that sprite files exist:
 
 ```bash
-ls -lh data/sprites/osm-bright*.{png,json}
+ls -lh data/sprites/osm-liberty*.{png,json}
 ```
 
 You should see 4 files:
-- osm-bright.json
-- osm-bright.png
-- osm-bright@2x.json
-- osm-bright@2x.png
+- osm-liberty.json
+- osm-liberty.png
+- osm-liberty@2x.json
+- osm-liberty@2x.png
 
 ### Step 3: Start TileServer GL
 
 Sprites are automatically served at:
 
 ```
-http://localhost:8080/sprites/osm-bright
-http://localhost:8080/sprites/osm-bright@2x
+http://localhost:8080/sprites/osm-liberty
+http://localhost:8080/sprites/osm-liberty@2x
 ```
 
 ## MapLibre GL Configuration
@@ -80,7 +80,7 @@ Add to your style JSON:
 {
   "version": 8,
   "name": "Your Map Style",
-  "sprite": "http://localhost:8080/sprites/osm-bright",
+  "sprite": "http://localhost:8080/sprites/osm-liberty",
   "sources": { ... },
   "layers": [ ... ]
 }
@@ -92,7 +92,7 @@ If accessing from another device/network:
 
 ```json
 {
-  "sprite": "http://192.168.1.100:8080/sprites/osm-bright"
+  "sprite": "http://192.168.1.100:8080/sprites/osm-liberty"
 }
 ```
 
@@ -251,8 +251,8 @@ The setup includes high-resolution sprites for sharp rendering on Retina display
 
 **TileServer GL automatically serves the correct version:**
 
-- Standard: `/sprites/osm-bright.png`
-- Retina: `/sprites/osm-bright@2x.png`
+- Standard: `/sprites/osm-liberty.png`
+- Retina: `/sprites/osm-liberty@2x.png`
 
 MapLibre GL will automatically use @2x versions on high-DPI devices.
 
@@ -274,15 +274,15 @@ If you modify icons, regenerate sprites using Spritezero:
 npm install -g @mapbox/spritezero-cli
 
 # Generate from SVGs
-spritezero ./data/sprites/osm-bright ./svgs
+spritezero ./data/sprites/osm-liberty ./svgs
 
 # Generate high-DPI version
-spritezero --ratio 2 ./data/sprites/osm-bright@2x ./svgs
+spritezero --ratio 2 ./data/sprites/osm-liberty@2x ./svgs
 ```
 
 Expected output:
-- `osm-bright.png` + `osm-bright.json`
-- `osm-bright@2x.png` + `osm-bright@2x.json`
+- `osm-liberty.png` + `osm-liberty.json`
+- `osm-liberty@2x.png` + `osm-liberty@2x.json`
 
 ### Adding Custom Icons
 
@@ -303,7 +303,7 @@ Reference sprites in your React Native MapLibre setup:
 import MapLibGL from '@react-native-mapbox-gl/maps';
 
 export default function AlgeriaMapWithIcons() {
-  const styleURL = 'http://192.168.1.100:8080/styles/osm-bright/style.json';
+  const styleURL = 'http://192.168.1.100:8080/styles/osm-liberty/style.json';
 
   return (
     <MapLibGL.MapView
@@ -402,19 +402,19 @@ Complete example adding POI icons to your style:
 
 1. Verify sprite files exist:
    ```bash
-   ls -lh data/sprites/osm-bright*.png
+   ls -lh data/sprites/osm-liberty*.png
    ```
 
 2. Check sprite URL in style is correct:
    ```json
    {
-     "sprite": "http://localhost:8080/sprites/osm-bright"
+     "sprite": "http://localhost:8080/sprites/osm-liberty"
    }
    ```
 
 3. Verify TileServer GL is running:
    ```bash
-   curl http://localhost:8080/sprites/osm-bright.json
+   curl http://localhost:8080/sprites/osm-liberty.json
    ```
 
 4. Check browser console for 404 errors
@@ -426,10 +426,10 @@ Complete example adding POI icons to your style:
 
 ```bash
 # Check file sizes - @2x should be ~4x larger
-ls -lh data/sprites/osm-bright*.png
+ls -lh data/sprites/osm-liberty*.png
 
 # Monitor requests in browser DevTools
-# Should show osm-bright@2x.png on high-DPI devices
+# Should show osm-liberty@2x.png on high-DPI devices
 ```
 
 ### Wrong Icons Displaying
@@ -461,7 +461,7 @@ ls -lh data/sprites/osm-bright*.png
 1. Use server IP instead of localhost:
    ```json
    {
-     "sprite": "http://192.168.1.100:8080/sprites/osm-bright"
+     "sprite": "http://192.168.1.100:8080/sprites/osm-liberty"
    }
    ```
 
@@ -474,7 +474,7 @@ ls -lh data/sprites/osm-bright*.png
 
 3. Verify network connectivity:
    ```bash
-   curl http://192.168.1.100:8080/sprites/osm-bright.json
+   curl http://192.168.1.100:8080/sprites/osm-liberty.json
    ```
 
 ## Performance Tips
@@ -538,7 +538,7 @@ MapLibre GL 3.0+ supports multiple sprites:
 ```json
 {
   "sprite": [
-    {"id": "default", "url": "http://localhost:8080/sprites/osm-bright"},
+    {"id": "default", "url": "http://localhost:8080/sprites/osm-liberty"},
     {"id": "custom", "url": "http://localhost:8080/sprites/custom"}
   ],
   "layers": [

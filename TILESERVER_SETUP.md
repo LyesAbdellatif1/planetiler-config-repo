@@ -45,7 +45,7 @@ npm install -g @mapbox/tileserver-gl-cli
 
 # 4. Start TileServer with your MBTiles
 tileserver-gl data/algeria.mbtiles \
-  --styles osm-bright-style.json \
+  --styles osm-liberty-style.json \
   --port 8080
 ```
 
@@ -108,8 +108,8 @@ java -Xmx8g -jar planetiler.jar \
 
 ### Step 3: Download Map Style
 
-The repository includes `osm-bright-style.json` which is a customized version of:
-[OSM Bright GL Style](https://github.com/openmaptiles/osm-bright-gl-style)
+The repository includes `osm-liberty-style.json` which is a customized version of:
+[OSM Bright GL Style](https://github.com/openmaptiles/osm-liberty-gl-style)
 
 This style is pre-configured to work with your local TileServer.
 
@@ -143,8 +143,8 @@ The `tileserver-gl-config.json` is pre-configured with:
 ```json
 {
   "styles": {
-    "osm-bright": {
-      "style": "osm-bright-style.json",
+    "osm-liberty": {
+      "style": "osm-liberty-style.json",
       "tilejson": "2.2.0",
       "name": "OSM Bright - Algeria"
     }
@@ -204,7 +204,7 @@ curl http://localhost:8080
 curl http://localhost:8080/styles.json
 
 # Check specific style
-curl http://localhost:8080/styles/osm-bright.json
+curl http://localhost:8080/styles/osm-liberty.json
 
 # Check data sources
 curl http://localhost:8080/data/algeria.json
@@ -223,7 +223,7 @@ See [REACT_NATIVE_SETUP.md](./docs/REACT_NATIVE_SETUP.md) for complete integrati
 import MapLibGL from '@react-native-mapbox-gl/maps';
 
 const TILESERVER_URL = 'http://192.168.1.X:8080'; // Your server IP
-const STYLE_URL = `${TILESERVER_URL}/styles/osm-bright/style.json`;
+const STYLE_URL = `${TILESERVER_URL}/styles/osm-liberty/style.json`;
 
 export default function AlgeriaMap() {
   return (
@@ -272,7 +272,7 @@ npm install -g @mapbox/tileserver-gl-cli
 
 # Copy your MBTiles and config
 scp -r data/ ec2-user@your-instance:/home/ec2-user/
-scp tileserver-gl-config.json osm-bright-style.json ec2-user@your-instance:/home/ec2-user/
+scp tileserver-gl-config.json osm-liberty-style.json ec2-user@your-instance:/home/ec2-user/
 
 # Start TileServer
 tileserver-gl --config tileserver-gl-config.json --port 8080
@@ -425,7 +425,7 @@ cat tileserver-gl-config.json | grep mbtiles
 
 2. Verify style URL:
    ```bash
-   curl http://192.168.1.X:8080/styles/osm-bright.json
+   curl http://192.168.1.X:8080/styles/osm-liberty.json
    ```
 
 3. Check for CORS errors in React Native console

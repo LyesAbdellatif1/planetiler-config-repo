@@ -58,7 +58,7 @@ Open: **http://localhost:8080**
 ### Step 5️⃣ Use in React Native
 ```jsx
 <MapLibGL.MapView
-  styleURL="http://192.168.1.X:8080/styles/osm-bright/style.json"
+  styleURL="http://192.168.1.X:8080/styles/osm-liberty/style.json"
   centerCoordinate={[5.5, 28.0]}
   zoomLevel={4}
 />
@@ -91,7 +91,7 @@ your-project/
 │   └── REACT_NATIVE_SETUP.md      ← React Native guide + examples
 │
 ├── ⚙️  config.json                  ← Original Planetiler config
-├── 🎨 osm-bright-style.json        ← Map style (edit this to customize!)
+├── 🎨 osm-liberty-style.json        ← Map style (edit this to customize!)
 ├── 🔧 tileserver-gl-config.json    ← Server configuration
 ├── ⚙️  planetiler-config.json      ← Tile generation config
 │
@@ -116,7 +116,7 @@ your-project/
 | File | Purpose |
 |------|---------|
 | `tileserver-gl-config.json` | How TileServer GL behaves (port, caching, etc) |
-| `osm-bright-style.json` | How the map looks (colors, fonts, layers) |
+| `osm-liberty-style.json` | How the map looks (colors, fonts, layers) |
 | `planetiler-config.json` | How to process OSM data |
 | `docker-compose.yml` | Docker setup |
 
@@ -147,7 +147,7 @@ Downloading algeria-latest.osm.pbf from Geofabrik...
 Starting TileServer GL...
 Configuring from: tileserver-gl-config.json
 Loading MBTiles: data/algeria.mbtiles
-Loading style: osm-bright-style.json
+Loading style: osm-liberty-style.json
 Starting HTTP server on port 8080...
 ✓ TileServer GL running at http://localhost:8080
 ```
@@ -211,7 +211,7 @@ npm run tileserver
 See: `docs/REACT_NATIVE_SETUP.md` (has 3 complete examples)
 
 ### "I want to customize the map colors"
-Edit: `osm-bright-style.json` (just save and refresh)
+Edit: `osm-liberty-style.json` (just save and refresh)
 
 ### "I want to use Docker"
 ```bash
@@ -249,7 +249,7 @@ Once TileServer is running at `http://localhost:8080`:
   http://localhost:8080/styles.json
   → List available styles
   
-  http://localhost:8080/styles/osm-bright/style.json
+  http://localhost:8080/styles/osm-liberty/style.json
   → Full style specification
 
 📍 TILES

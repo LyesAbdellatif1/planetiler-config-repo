@@ -10,7 +10,7 @@ RUN apk add --no-cache curl
 
 # Copy configuration files
 COPY tileserver-gl-config.json ./
-COPY osm-bright-style.json ./
+COPY osm-liberty-style.json ./
 
 # Copy data directory with tiles and fonts
 COPY data ./data

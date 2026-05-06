@@ -52,10 +52,10 @@ echo "2️⃣  Downloading OSM Liberty sprites (includes Maki icons)..."
 
 # Download sprite images and metadata
 SPRITE_URLS=(
-    "https://raw.githubusercontent.com/openmaptiles/osm-liberty-gl-style/gh-pages/sprites/osm-bright.json"
-    "https://raw.githubusercontent.com/openmaptiles/osm-liberty-gl-style/gh-pages/sprites/osm-bright.png"
-    "https://raw.githubusercontent.com/openmaptiles/osm-liberty-gl-style/gh-pages/sprites/osm-bright@2x.json"
-    "https://raw.githubusercontent.com/openmaptiles/osm-liberty-gl-style/gh-pages/sprites/osm-bright@2x.png"
+    "https://raw.githubusercontent.com/openmaptiles/osm-liberty-gl-style/gh-pages/sprites/osm-liberty.json"
+    "https://raw.githubusercontent.com/openmaptiles/osm-liberty-gl-style/gh-pages/sprites/osm-liberty.png"
+    "https://raw.githubusercontent.com/openmaptiles/osm-liberty-gl-style/gh-pages/sprites/osm-liberty@2x.json"
+    "https://raw.githubusercontent.com/openmaptiles/osm-liberty-gl-style/gh-pages/sprites/osm-liberty@2x.png"
 )
 
 for url in "${SPRITE_URLS[@]}"; do
@@ -64,7 +64,7 @@ for url in "${SPRITE_URLS[@]}"; do
     curl -sL "$url" -o "$SPRITES_DIR/$filename" || echo "  ⚠️  Could not download $filename"
 done
 
-if [ -f "$SPRITES_DIR/osm-bright.png" ]; then
+if [ -f "$SPRITES_DIR/osm-liberty.png" ]; then
     echo "✓ Sprites downloaded successfully"
 else
     echo "⚠️  Some sprite files could not be downloaded"
@@ -190,10 +190,10 @@ This directory contains sprite sheets and icon metadata for rendering map icons 
 
 ## Files
 
-- `osm-bright.json` - Standard resolution sprite metadata
-- `osm-bright.png` - Standard resolution sprite sheet (128x128px icons)
-- `osm-bright@2x.json` - High resolution sprite metadata
-- `osm-bright@2x.png` - High resolution sprite sheet (256x256px icons)
+- `osm-liberty.json` - Standard resolution sprite metadata
+- `osm-liberty.png` - Standard resolution sprite sheet (128x128px icons)
+- `osm-liberty@2x.json` - High resolution sprite metadata
+- `osm-liberty@2x.png` - High resolution sprite sheet (256x256px icons)
 
 ## Icon Categories
 
@@ -257,13 +257,13 @@ In your MapLibre GL style JSON:
 
 ```json
 {
-  "sprite": "http://localhost:8080/sprites/osm-bright"
+  "sprite": "http://localhost:8080/sprites/osm-liberty"
 }
 ```
 
 TileServer GL will automatically serve both standard and high-resolution versions:
-- `/sprites/osm-bright.png` (standard)
-- `/sprites/osm-bright@2x.png` (high-DPI)
+- `/sprites/osm-liberty.png` (standard)
+- `/sprites/osm-liberty@2x.png` (high-DPI)
 
 ## Icon Naming Convention
 
@@ -283,7 +283,7 @@ To customize sprites:
 
 ```bash
 # Example with spritezero-cli
-npx spritezero ./sprites/osm-bright ./svgs
+npx spritezero ./sprites/osm-liberty ./svgs
 ```
 
 ## High-DPI Support
@@ -291,8 +291,8 @@ npx spritezero ./sprites/osm-bright ./svgs
 For Retina displays, high-resolution sprites (@2x) are automatically used when available.
 Create @2x versions with double resolution:
 
-- `osm-bright@2x.json`
-- `osm-bright@2x.png`
+- `osm-liberty@2x.json`
+- `osm-liberty@2x.png`
 
 The @2x files should contain the same icons at 2x size.
 
@@ -384,10 +384,10 @@ echo "✅ Sprite Setup Complete!"
 echo "=================================================="
 echo ""
 echo "📁 Files created:"
-echo "   - $SPRITES_DIR/osm-bright.png"
-echo "   - $SPRITES_DIR/osm-bright.json"
-echo "   - $SPRITES_DIR/osm-bright@2x.png"
-echo "   - $SPRITES_DIR/osm-bright@2x.json"
+echo "   - $SPRITES_DIR/osm-liberty.png"
+echo "   - $SPRITES_DIR/osm-liberty.json"
+echo "   - $SPRITES_DIR/osm-liberty@2x.png"
+echo "   - $SPRITES_DIR/osm-liberty@2x.json"
 echo "   - $ICONS_DIR/iconset.json"
 echo "   - $ICONS_DIR/categories.json"
 echo "   - $ICONS_DIR/poi-layers.json"
@@ -395,7 +395,7 @@ echo "   - $SPRITES_DIR/README.md"
 echo ""
 echo "🎨 Next steps:"
 echo "   1. Sprites are automatically served by TileServer GL"
-echo "   2. Style references: http://localhost:8080/sprites/osm-bright"
+echo "   2. Style references: http://localhost:8080/sprites/osm-liberty"
 echo "   3. Add POI layers from icons/poi-layers.json to your style"
 echo "   4. Customize icons using Maki editor if needed"
 echo ""

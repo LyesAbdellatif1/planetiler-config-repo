@@ -72,7 +72,7 @@ This downloads:
 
 ```json
 {
-  "sprite": "http://localhost:8080/sprites/osm-bright",
+  "sprite": "http://localhost:8080/sprites/osm-liberty",
   "layers": [
     {
       "id": "poi-icons",
@@ -92,7 +92,7 @@ This downloads:
 
 ```jsx
 <MapLibGL.MapView
-  styleURL="http://192.168.1.X:8080/styles/osm-bright/style.json"
+  styleURL="http://192.168.1.X:8080/styles/osm-liberty/style.json"
   centerCoordinate={[5.5, 28.0]}
   zoomLevel={8}
 />
@@ -126,8 +126,8 @@ All icons come in 3 standard sizes:
 Automatically uses @2x sprites on Retina/high-DPI displays. No configuration needed!
 
 Files served:
-- `osm-bright.png` (standard)
-- `osm-bright@2x.png` (Retina, 2x size)
+- `osm-liberty.png` (standard)
+- `osm-liberty@2x.png` (Retina, 2x size)
 
 MapLibre GL selects the right version automatically.
 
@@ -173,10 +173,10 @@ Apply colors based on POI type:
 ```
 data/
 ├── sprites/
-│   ├── osm-bright.png           # Standard sprite sheet
-│   ├── osm-bright.json          # Sprite metadata
-│   ├── osm-bright@2x.png        # High-DPI sprite sheet
-│   ├── osm-bright@2x.json       # High-DPI metadata
+│   ├── osm-liberty.png           # Standard sprite sheet
+│   ├── osm-liberty.json          # Sprite metadata
+│   ├── osm-liberty@2x.png        # High-DPI sprite sheet
+│   ├── osm-liberty@2x.json       # High-DPI metadata
 │   └── README.md                # Sprite documentation
 └── icons/
     ├── iconset.json             # Icon definitions
@@ -254,7 +254,7 @@ Complete ready-to-use POI layer with icons:
 }
 ```
 
-Add this to your `osm-bright-style.json` to enable POI icons!
+Add this to your `osm-liberty-style.json` to enable POI icons!
 
 ## Troubleshooting
 
@@ -262,26 +262,26 @@ Add this to your `osm-bright-style.json` to enable POI icons!
 
 1. Verify sprites downloaded:
    ```bash
-   ls -lh data/sprites/osm-bright*.png
+   ls -lh data/sprites/osm-liberty*.png
    ```
 
 2. Check sprite URL in style:
    ```json
    {
-     "sprite": "http://localhost:8080/sprites/osm-bright"
+     "sprite": "http://localhost:8080/sprites/osm-liberty"
    }
    ```
 
 3. Test sprite endpoint:
    ```bash
-   curl http://localhost:8080/sprites/osm-bright.json
+   curl http://localhost:8080/sprites/osm-liberty.json
    ```
 
 ### Wrong Icon Displaying
 
 Check icon name in sprite metadata:
 ```bash
-curl http://localhost:8080/sprites/osm-bright.json | jq '.["restaurant-15"]'
+curl http://localhost:8080/sprites/osm-liberty.json | jq '.["restaurant-15"]'
 ```
 
 ### Sprites Blurry
@@ -292,7 +292,7 @@ Verify @2x files exist and are being served on high-DPI devices.
 
 1. **Download sprites:** `npm run sprites`
 2. **Review examples:** Check `data/icons/poi-layers.json`
-3. **Add to style:** Include POI layer in `osm-bright-style.json`
+3. **Add to style:** Include POI layer in `osm-liberty-style.json`
 4. **Test locally:** `npm run tileserver` and visit `http://localhost:8080`
 5. **Deploy:** Use Docker or your hosting platform
 

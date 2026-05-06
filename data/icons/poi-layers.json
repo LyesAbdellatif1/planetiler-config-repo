@@ -1,0 +1,28 @@
+﻿{
+  "poi-icons-layer": {
+    "id": "poi-icons",
+    "type": "symbol",
+    "source": "openmaptiles",
+    "source-layer": "poi",
+    "filter": ["!=", "name", ""],
+    "layout": {
+      "icon-image": ["concat", ["get", "maki"], "-15"],
+      "icon-size": [
+        "interpolate", ["linear"], ["zoom"],
+        0, 0.5, 10, 0.8, 14, 1.0, 18, 1.5
+      ],
+      "icon-allow-overlap": false,
+      "text-field": ["get", "name"],
+      "text-font": ["Open Sans Regular"],
+      "text-size": 12,
+      "text-offset": [0, 1.2],
+      "text-anchor": "top",
+      "icon-anchor": "bottom"
+    },
+    "paint": {
+      "text-color": "#626262",
+      "text-halo-color": "#ffffff",
+      "text-halo-width": 1
+    }
+  }
+}

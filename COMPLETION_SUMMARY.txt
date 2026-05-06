@@ -31,7 +31,7 @@ FILES CREATED (18 new files)
 
 ⚙️  CONFIGURATION (4 files)
   ✓ tileserver-gl-config.json      - TileServer GL server config
-  ✓ osm-bright-style.json          - Customized map style (382 lines)
+  ✓ osm-liberty-style.json          - Customized map style (382 lines)
   ✓ planetiler-config.json         - Tile processing config
   ✓ package.json                   - NPM with 12 helper scripts
 
@@ -217,7 +217,7 @@ IMMEDIATELY (Today)
 
 SOON (This Week)
   1. Integrate with React Native app
-  2. Customize map style (osm-bright-style.json)
+  2. Customize map style (osm-liberty-style.json)
   3. Download fonts for better text rendering
   4. Test all features in your environment
 

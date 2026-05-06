@@ -76,7 +76,7 @@ MapLibGL.setSourceDefaultOptions({
 });
 
 const TILESERVER_URL = 'http://192.168.1.X:8080'; // Replace with your server IP
-const STYLE_URL = `${TILESERVER_URL}/styles/osm-bright/style.json`;
+const STYLE_URL = `${TILESERVER_URL}/styles/osm-liberty/style.json`;
 
 export default function AlgeriaMap() {
   return (
@@ -121,7 +121,7 @@ import MapLibGL from '@react-native-mapbox-gl/maps';
 import Geolocation from '@react-native-community/geolocation';
 
 const TILESERVER_URL = 'http://192.168.1.X:8080';
-const STYLE_URL = `${TILESERVER_URL}/styles/osm-bright/style.json`;
+const STYLE_URL = `${TILESERVER_URL}/styles/osm-liberty/style.json`;
 
 export default function AlgeriaMapWithLocation() {
   const [location, setLocation] = useState(null);
@@ -192,7 +192,7 @@ import { StyleSheet, View, Text } from 'react-native';
 import MapLibGL from '@react-native-mapbox-gl/maps';
 
 const TILESERVER_URL = 'http://192.168.1.X:8080';
-const STYLE_URL = `${TILESERVER_URL}/styles/osm-bright/style.json`;
+const STYLE_URL = `${TILESERVER_URL}/styles/osm-liberty/style.json`;
 
 const ALGERIA_CITIES = [
   { id: 1, name: 'Algiers', coordinates: [3.0588, 36.7372] },
@@ -290,14 +290,14 @@ const styles = StyleSheet.create({
 
 ```javascript
 const TILESERVER_URL = 'http://192.168.1.100:8080'; // Your machine's local IP
-const STYLE_URL = `${TILESERVER_URL}/styles/osm-bright/style.json`;
+const STYLE_URL = `${TILESERVER_URL}/styles/osm-liberty/style.json`;
 ```
 
 ### Remote Server
 
 ```javascript
 const TILESERVER_URL = 'https://your-domain.com'; // Your deployed server
-const STYLE_URL = `${TILESERVER_URL}/styles/osm-bright/style.json`;
+const STYLE_URL = `${TILESERVER_URL}/styles/osm-liberty/style.json`;
 ```
 
 ### Custom Tile Sources
@@ -342,7 +342,7 @@ If you want to use specific layers from your tiles:
 ### Issue: Styles not applying
 
 **Solution:**
-1. Verify the style URL is accessible: `curl http://your-server:8080/styles/osm-bright/style.json`
+1. Verify the style URL is accessible: `curl http://your-server:8080/styles/osm-liberty/style.json`
 2. Ensure fonts are being served correctly
 3. Check browser console for CORS errors
 
@@ -364,13 +364,13 @@ Your TileServer GL includes sprite sheets with 600+ icons (Maki icons). Add icon
 import MapLibGL from '@react-native-mapbox-gl/maps';
 
 export default function AlgeriaMapWithIcons() {
-  const styleURL = 'http://192.168.1.X:8080/styles/osm-bright/style.json';
+  const styleURL = 'http://192.168.1.X:8080/styles/osm-liberty/style.json';
 
   // Custom style with POI icons
   const customStyle = {
     version: 8,
     name: 'Algeria with POI Icons',
-    sprite: 'http://192.168.1.X:8080/sprites/osm-bright',
+    sprite: 'http://192.168.1.X:8080/sprites/osm-liberty',
     sources: { /* ... */ },
     layers: [
       // ... existing layers ...

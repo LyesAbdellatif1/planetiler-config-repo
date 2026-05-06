@@ -67,7 +67,7 @@ import MapLibGL from '@react-native-mapbox-gl/maps';
 export default function AlgeriaMap() {
   return (
     <MapLibGL.MapView
-      styleURL="http://192.168.1.X:8080/styles/osm-bright/style.json"
+      styleURL="http://192.168.1.X:8080/styles/osm-liberty/style.json"
       centerCoordinate={[5.5, 28.0]}
       zoomLevel={4}
     />
@@ -131,7 +131,7 @@ npm run health
 1. **Processing Custom Tiles:** See [TILESERVER_SETUP.md](./TILESERVER_SETUP.md#step-2-process-osm-data-to-vector-tiles-optional)
 2. **React Native Integration:** See [REACT_NATIVE_SETUP.md](./docs/REACT_NATIVE_SETUP.md)
 3. **Production Deployment:** See [TILESERVER_SETUP.md](./TILESERVER_SETUP.md#deployment)
-4. **Customizing Style:** Edit `osm-bright-style.json`
+4. **Customizing Style:** Edit `osm-liberty-style.json`
 
 ## Network Access
 
