@@ -23,7 +23,8 @@ console.log('=== Planetiler Tile Generation for Algeria ===\n');
 if (!fs.existsSync(OSM_FILE)) {
     console.error(`❌ Error: OSM file not found at ${OSM_FILE}`);
     console.log('\nPlease run the download script first:');
-    console.log('  bash scripts/download-algeria-data.sh\n');
+    console.log('  Windows: powershell -ExecutionPolicy Bypass -File scripts/download-algeria-data.ps1');
+    console.log('  Linux:   bash scripts/download-algeria-data.sh\n');
     process.exit(1);
 }
 

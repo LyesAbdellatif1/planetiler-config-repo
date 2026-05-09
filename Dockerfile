@@ -3,7 +3,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Install TileServer GL globally
-RUN npm install -g @mapbox/tileserver-gl-cli
+RUN npm install -g tileserver-gl
 
 # Install curl for health checks
 RUN apk add --no-cache curl

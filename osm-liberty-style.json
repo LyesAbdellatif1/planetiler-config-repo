@@ -8,22 +8,18 @@
     "openmaptiles:mapbox:owner": "openmaptiles",
     "openmaptiles:mapbox:source:url": "mapbox://openmaptiles.4qljc88r"
   },
-  "center": [
-    5.5,
-    28.0,
-    4
-  ],
+  "center": [5.5, 28.0],
   "zoom": 4,
   "bearing": 0,
   "pitch": 0,
   "sources": {
     "openmaptiles": {
       "type": "vector",
-      "url": "http://localhost:8080/data/algeria/tilesets/algeria.json"
+      "url": "mbtiles://algeria"
     }
   },
-  "sprite": "http://localhost:8080/sprites/osm-liberty",
-  "glyphs": "http://localhost:8080/data/glyphs/{fontstack}/{range}.pbf",
+  "sprite": "osm-liberty",
+  "glyphs": "http://localhost:8080/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

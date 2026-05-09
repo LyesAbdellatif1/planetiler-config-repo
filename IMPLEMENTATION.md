@@ -2,304 +2,294 @@
 
 Complete implementation of a production-ready tileserver for serving Algerian OpenStreetMap data with React Native MapLibre integration.
 
-## 📦 What's Included
+## What Was Built
 
-### 1. Data Pipeline
-
-#### Scripts
-- **`scripts/download-algeria-data.sh`** - Downloads latest Algerian OSM data from Geofabrik
-- **`scripts/download-fonts.sh`** - Downloads OpenMapTiles fonts for text rendering
-- **`scripts/process-tiles.js`** - Node.js script to generate MBTiles using Planetiler
-- **`scripts/verify-setup.sh`** - Verifies all prerequisites are installed
-
-#### Configuration Files
-- **`planetiler-config.json`** - Planetiler configuration for tile generation
-  - Bounds: Algeria (2.0°E - 9.0°E, 18.0°N - 37.0°N)
-  - Zoom levels: 0-14
-  - Includes all standard OSM layers
-
-### 2. TileServer GL Setup
-
-#### Configuration
-- **`tileserver-gl-config.json`** - Complete TileServer GL configuration
-  - Port: 8080
-  - CORS enabled for cross-origin requests
-  - Caching configured (1 hour)
-  - Style: osm-liberty
-
-#### Style
-- **`osm-liberty-style.json`** - Customized OSM Bright GL style
-  - 23 layers covering all map features
-  - Optimized for mobile viewing
-  - Multilingual place labels
-  - Clear road hierarchy
-
-### 3. Docker Support
-
-- **`Dockerfile`** - Container image for TileServer GL
-  - Node.js 18 Alpine base
-  - Pre-configured TileServer GL
-  - Health checks included
-- **`docker-compose.yml`** - Multi-container orchestration
-  - Single tileserver service
-  - Volume mounts for data persistence
-  - Port mapping and restart policy
-
-### 4. React Native Integration
-
-- **`docs/REACT_NATIVE_SETUP.md`** - Comprehensive integration guide
-  - Installation instructions for MapLibre Native
-  - Permission setup for Android and iOS
-  - 3 complete working examples:
-    1. Simple map display
-    2. Map with user location
-    3. Map with markers and info boxes
-  - Troubleshooting section
-  - Performance tips
-
-### 5. Documentation
-
-- **`README.md`** - Main project overview
-  - Quick start instructions
-  - Architecture overview
-  - Setup steps
-  - API endpoints
-  - Troubleshooting
-  - Resource links
-
-- **`TILESERVER_SETUP.md`** - Detailed setup guide (510 lines)
-  - System requirements
-  - Multiple setup methods
-  - Configuration options
-  - Performance optimization
-  - Cloud deployment guides
-  - Comprehensive troubleshooting
-
-- **`QUICKSTART.md`** - 5-minute quick start
-  - Step-by-step setup
-  - Common commands
-  - Troubleshooting quick fixes
-
-- **`IMPLEMENTATION.md`** - This file
-  - Complete feature inventory
-  - Architecture overview
-  - Next steps
-
-### 6. Project Configuration
-
-- **`package.json`** - NPM configuration
-  - 12 npm scripts for common operations
-  - TileServer GL as dev dependency
-  - Proper metadata and keywords
-
-- **`.gitignore`** - Git ignore rules
-  - Excludes large data files
-  - Environment files
-  - IDE and OS files
-  - Build artifacts
-
-## 🏗️ Architecture
+A full pipeline from raw OSM data to a running tile server:
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                      Data Source Layer                          │
-│  ┌──────────────────┐      ┌─────────────────────────────────┐  │
-│  │  Geofabrik OSM   │      │  OpenMapTiles Fonts             │  │
-│  │  (algeria.pbf)   │      │  (PNG/PBF format)               │  │
-│  └────────┬─────────┘      └──────────────┬────────────────────┘  │
-└───────────┼────────────────────────────────┼──────────────────────┘
-            │                                │
-            v                                v
-┌─────────────────────────────────────────────────────────────────┐
-│                   Processing Layer (Local)                      │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  Planetiler                                             │    │
-│  │  - Parses OSM PBF data                                  │    │
-│  │  - Applies schema (OpenMapTiles)                        │    │
-│  │  - Generates vector tiles                              │    │
-│  │  - Creates MBTiles output                              │    │
-│  └───────────┬──────────────────────────────────────────────┘   │
-│              │                                                   │
-│              v                                                   │
-│  ┌─────────────────────────────────────────────────────────┐    │
-│  │  MBTiles Database                                       │    │
-│  │  - Vector tiles (PBF format)                            │    │
-│  │  - Metadata and TileJSON                               │    │
-│  │  - Efficient spatial indexing                          │    │
-│  └─────────────────────────────────────────────────────────┘    │
-└─────────────────────────────────────────────────────────────────┘
-            │
-            v
-┌─────────────────────────────────────────────────────────────────┐
-│              TileServer GL (Running on Port 8080)                │
-│  ┌──────────────────────────────────────────────────────────┐   │
-│  │  HTTP Server                                             │   │
-│  │  - RESTful tile API                                      │   │
-│  │  - CORS headers for cross-origin access                │   │
-│  │  - In-memory tile caching (1 hour)                      │   │
-│  │  - Compression (gzip)                                   │   │
-│  └──────────────────────────────────────────────────────────┘   │
-│                                                                  │
-│  Endpoints:                                                      │
-│  /                          → Web interface                      │
-│  /data/algeria/{z}/{x}/{y}  → Vector tiles                      │
-│  /styles/osm-liberty         → Style JSON                        │
-│  /data/glyphs/{font}/{range}→ Font glyphs                       │
-└─────────────────────────────────────────────────────────────────┘
-            │
-            v
-┌─────────────────────────────────────────────────────────────────┐
-│        React Native / Browser Clients                           │
-│  ┌────────────────────────────────────────────────────────┐     │
-│  │  MapLibre Native (React Native)                        │     │
-│  │  - Receives vectors from TileServer                    │     │
-│  │  - Applies osm-liberty style                            │     │
-│  │  - Renders on native OpenGL                            │     │
-│  │  - Smooth interactions (pan, zoom, rotate)             │     │
-│  └────────────────────────────────────────────────────────┘     │
-│                                                                  │
-│  ┌────────────────────────────────────────────────────────┐     │
-│  │  MapLibre GL JS (Web Browser)                          │     │
-│  │  - Via Web UI at http://localhost:8080                 │     │
-│  │  - Live tile preview and inspection                    │     │
-│  └────────────────────────────────────────────────────────┘     │
-└─────────────────────────────────────────────────────────────────┘
+OSM Data (Geofabrik)
+      │
+      ▼
+Planetiler (Docker)  ←── also downloads: lake centerlines, water polygons, Natural Earth
+      │
+      ▼
+algeria.mbtiles  (206 MB vector tile database)
+      │
+      ▼
+TileServer GL (Docker: maptiler/tileserver-gl)
+      │  serves:
+      ├── /data/algeria/{z}/{x}/{y}.pbf   vector tiles
+      ├── /styles/osm-liberty/style.json   map style
+      ├── /fonts/{fontstack}/{range}.pbf   text glyphs
+      └── /sprites/osm-liberty.*           map icons
+      │
+      ▼
+React Native / Browser  (MapLibre GL)
 ```
-
-## 🚀 Deployment Scenarios
-
-### Scenario 1: Local Development
-- TileServer runs on `http://localhost:8080`
-- React Native uses `http://192.168.1.X:8080` on same network
-- Setup time: 5 minutes
-- Storage: ~200MB (OSM data) + 2-8GB (tiles)
-
-### Scenario 2: Docker (Recommended)
-- Build: `docker build -t algeria-tileserver .`
-- Run: `docker run -p 8080:8080 -v $(pwd)/data:/app/data algeria-tileserver`
-- Or: `docker-compose up`
-- Deployment: Works on any Docker-compatible system
-
-### Scenario 3: Cloud Deployment
-- AWS EC2: t3.large instance (~$30/month)
-- DigitalOcean: $12+ droplet or App Platform
-- Any Linux VPS with Docker support
-- CDN integration (optional, for public access)
-
-## 📊 Performance Characteristics
-
-### Disk Space Requirements
-- Input (OSM): ~180MB
-- Output (MBTiles): 2-8GB (depending on zoom levels)
-- Fonts: ~50MB
-- Total: ~10GB recommended
-
-### Processing Time
-- Download OSM data: 5 minutes
-- Generate MBTiles: 30 minutes - 2 hours (depends on specs)
-- Start TileServer: < 10 seconds
-
-### Runtime Performance
-- Tile serving: < 50ms per tile
-- Concurrent clients: 1000+
-- Memory usage: ~500MB base + cache
-- Cache hit rate: >80% for typical usage
-
-## 🔧 Key Features
-
-✅ **Complete OSM Coverage** - All of Algeria with detailed features  
-✅ **Production-Ready** - Optimized for performance and reliability  
-✅ **Docker Support** - Easy deployment and scaling  
-✅ **CORS Enabled** - Works with web and mobile clients  
-✅ **Caching** - Built-in tile caching for speed  
-✅ **Vector Tiles** - Efficient PBF format (~50x smaller than raster)  
-✅ **Customizable Style** - OSM Bright with full editing support  
-✅ **Multilingual** - Support for Arabic and other languages  
-✅ **Well Documented** - 4 comprehensive guides + examples  
-✅ **React Native Ready** - Complete MapLibre Native integration  
-
-## 📝 Configuration Checklist
-
-- [x] Planetiler configuration for Algeria bounds
-- [x] TileServer GL config with CORS headers
-- [x] OSM Bright style customized for local serving
-- [x] Docker containerization
-- [x] Download scripts for data and fonts
-- [x] Processing script for MBTiles generation
-- [x] React Native integration examples
-- [x] Complete documentation
-- [x] Setup verification script
-- [x] NPM helper scripts
-
-## 🎯 Next Steps for Users
-
-### Immediate (Today)
-1. Run: `bash scripts/verify-setup.sh`
-2. Run: `bash scripts/download-algeria-data.sh`
-3. Run: `npm install -g @mapbox/tileserver-gl-cli`
-4. Run: `npm run tileserver`
-5. Open: `http://localhost:8080`
-
-### Short-term (This Week)
-1. Test with React Native app
-2. Customize style if needed
-3. Download fonts for better text
-4. Verify all features work
-
-### Long-term (This Month)
-1. Deploy to production environment
-2. Set up monitoring
-3. Configure backups
-4. Optimize performance
-5. Document any customizations
-
-## 📚 Key Files to Understand
-
-**For Developers:**
-- `tileserver-gl-config.json` - Server behavior
-- `osm-liberty-style.json` - Map appearance
-- `planetiler-config.json` - Data processing
-
-**For DevOps:**
-- `Dockerfile` - Container image
-- `docker-compose.yml` - Orchestration
-- `scripts/verify-setup.sh` - Verification
-
-**For React Native Integration:**
-- `docs/REACT_NATIVE_SETUP.md` - Full guide
-- `QUICKSTART.md` - Fast setup
-- `README.md` - Reference
-
-## 🔗 External Resources
-
-- **Planetiler:** https://docs.planetiler.org/
-- **TileServer GL:** https://tileserver.readthedocs.io/
-- **MapLibre Native:** https://maplibre.org/maplibre-native/
-- **OpenMapTiles:** https://openmaptiles.org/
-- **Geofabrik:** https://download.geofabrik.de/
-
-## ✨ What Makes This Implementation Special
-
-1. **Complete Pipeline** - Everything from data download to React Native rendering
-2. **Algeria-Optimized** - Specific bounds, zoom levels, and layer configuration
-3. **Production-Ready** - Caching, CORS, health checks, error handling
-4. **Well-Documented** - 500+ lines of guides + inline comments
-5. **Docker Support** - Single command deployment: `docker-compose up`
-6. **React Native Focus** - Includes native mobile app examples
-7. **Verified Setup** - Automatic verification script catches issues early
-
-## 🎓 Learning Value
-
-This implementation teaches:
-- Vector tile technology and formats
-- GIS data processing with Planetiler
-- Map styling with GL styles
-- Mobile mapping with MapLibre
-- Docker containerization
-- RESTful API design
-- CORS and web security
-- Performance optimization
 
 ---
 
-**Ready to deploy beautiful Algerian maps!** 🗺️ 🇩🇿
+## Scripts Reference (Windows PowerShell)
+
+All scripts are in `scripts/`. On Windows, use the `.ps1` versions — the `.sh` files require WSL or Git Bash.
+
+| Task | Command |
+|------|---------|
+| Download OSM data | `powershell -ExecutionPolicy Bypass -File scripts/download-algeria-data.ps1` |
+| Download sprites | `powershell -ExecutionPolicy Bypass -File scripts/setup-sprites.ps1` |
+| Download fonts | `powershell -ExecutionPolicy Bypass -File scripts/download-fonts.ps1` |
+| Generate MBTiles | `powershell -ExecutionPolicy Bypass -File scripts/run-planetiler.ps1` |
+| Start server | `docker-compose up` |
+
+### What each script does
+
+**`scripts/download-algeria-data.ps1`**
+- Downloads `algeria-latest.osm.pbf` (~283 MB) from Geofabrik
+- Saves to `data/algeria-latest.osm.pbf`
+
+**`scripts/setup-sprites.ps1`**
+- Downloads 4 sprite files from `openmaptiles/osm-liberty-gl-style` (gh-pages branch)
+- Saves to `data/sprites/`: `osm-liberty.json`, `osm-liberty.png`, `osm-liberty@2x.json`, `osm-liberty@2x.png`
+- Also creates `data/icons/`: `iconset.json`, `categories.json`, `poi-layers.json`
+
+**`scripts/download-fonts.ps1`**
+- Downloads `noto-open-sans.zip` (~64 MB) from `openmaptiles/fonts` v2.0
+- Extracts 2560 `.pbf` glyph files into `data/fonts/`
+- Provides Open Sans + Noto Sans font families
+
+**`scripts/run-planetiler.ps1`**
+- Pulls `ghcr.io/onthegomap/planetiler:latest` Docker image (no Java needed)
+- Mounts `data/` into the container
+- Reads `data/algeria-latest.osm.pbf`
+- Auto-downloads 3 additional required sources into `data/sources/`:
+  - `lake_centerline.shp.zip`
+  - `water-polygons-split-3857.zip`
+  - `natural_earth_vector.sqlite.zip`
+- Outputs `data/algeria.mbtiles` (206 MB, zooms 0-14)
+
+---
+
+## File Structure and Connections
+
+```
+planetiler-config-repo/
+│
+├── docker-compose.yml              ← starts TileServer GL
+│     uses image: maptiler/tileserver-gl:latest
+│     mounts:
+│       ./data                          → /data
+│       ./tileserver-gl-config.json     → /data/config.json
+│       ./osm-liberty-style.json        → /data/osm-liberty-style.json
+│
+├── tileserver-gl-config.json       ← server configuration
+│     paths.root    = /data
+│     paths.fonts   = fonts         → /data/fonts/
+│     paths.sprites = sprites       → /data/sprites/
+│     paths.mbtiles = ""            → /data/
+│     styles.osm-liberty.style = osm-liberty-style.json
+│     data.algeria.mbtiles    = algeria.mbtiles
+│
+├── osm-liberty-style.json          ← map appearance
+│     sources.openmaptiles.url = "mbtiles://algeria"
+│       └── resolved by tileserver to /data/algeria.mbtiles
+│     sprite = "http://localhost:8080/sprites/osm-liberty"
+│       └── served from /data/sprites/osm-liberty.*
+│     glyphs = "http://localhost:8080/fonts/{fontstack}/{range}.pbf"
+│       └── served from /data/fonts/{family}/{range}.pbf
+│
+├── data/
+│   ├── algeria-latest.osm.pbf      ← raw OSM input (283 MB)
+│   ├── algeria.mbtiles             ← generated vector tiles (206 MB)
+│   ├── fonts/                      ← 2560 .pbf glyph files
+│   │   ├── Open Sans Regular/
+│   │   ├── Open Sans Bold/
+│   │   ├── Noto Sans Regular/
+│   │   └── ...
+│   ├── sprites/                    ← icon sprite sheets
+│   │   ├── osm-liberty.json
+│   │   ├── osm-liberty.png
+│   │   ├── osm-liberty@2x.json
+│   │   └── osm-liberty@2x.png
+│   ├── icons/                      ← POI category mappings
+│   │   ├── categories.json
+│   │   ├── iconset.json
+│   │   └── poi-layers.json
+│   └── sources/                    ← Planetiler auxiliary downloads
+│       ├── lake_centerline.shp.zip
+│       ├── water-polygons-split-3857.zip
+│       └── natural_earth_vector.sqlite.zip
+│
+└── scripts/
+    ├── run-planetiler.ps1          ← MBTiles generation (Docker)
+    ├── setup-sprites.ps1           ← download sprite files
+    ├── download-fonts.ps1          ← download font glyphs
+    └── download-algeria-data.ps1   ← download OSM data
+```
+
+---
+
+## Docker Setup
+
+### TileServer GL (serving tiles)
+
+Uses the official `maptiler/tileserver-gl` image — no custom build needed.
+
+```yaml
+# docker-compose.yml
+services:
+  tileserver:
+    image: maptiler/tileserver-gl:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/data
+      - ./tileserver-gl-config.json:/data/config.json
+      - ./osm-liberty-style.json:/data/osm-liberty-style.json
+```
+
+Start: `docker-compose up`
+
+### Planetiler (generating MBTiles)
+
+Uses `ghcr.io/onthegomap/planetiler:latest` — run once, not part of docker-compose.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/run-planetiler.ps1
+```
+
+---
+
+## API Endpoints
+
+Once `docker-compose up` is running at `http://localhost:8080`:
+
+| Endpoint | Description |
+|----------|-------------|
+| `/` | TileServer GL web UI |
+| `/styles/osm-liberty/style.json` | Full map style JSON |
+| `/data/algeria.json` | TileJSON metadata |
+| `/data/algeria/{z}/{x}/{y}.pbf` | Vector tiles |
+| `/fonts/{fontstack}/{range}.pbf` | Font glyphs |
+| `/sprites/osm-liberty.json` | Sprite metadata |
+| `/sprites/osm-liberty.png` | Sprite image |
+
+---
+
+## TileServer GL Config Reference
+
+```json
+{
+  "options": {
+    "paths": {
+      "root": "/data",
+      "fonts": "fonts",
+      "sprites": "sprites",
+      "styles": "",
+      "mbtiles": ""
+    }
+  },
+  "styles": {
+    "osm-liberty": {
+      "style": "osm-liberty-style.json"
+    }
+  },
+  "data": {
+    "algeria": {
+      "mbtiles": "algeria.mbtiles"
+    }
+  }
+}
+```
+
+Path resolution: all relative paths are resolved from `root` (`/data`).
+
+---
+
+## Style File Reference
+
+Key fields in `osm-liberty-style.json`:
+
+```json
+{
+  "version": 8,
+  "sources": {
+    "openmaptiles": {
+      "type": "vector",
+      "url": "mbtiles://algeria"
+    }
+  },
+  "sprite": "http://localhost:8080/sprites/osm-liberty",
+  "glyphs": "http://localhost:8080/fonts/{fontstack}/{range}.pbf",
+  "center": [5.5, 28.0],
+  "zoom": 4
+}
+```
+
+- `mbtiles://algeria` — resolved by TileServer GL to the `algeria` entry in config (`algeria.mbtiles`)
+- `sprite` — must match the sprite files in `data/sprites/`
+- `glyphs` — must use `/fonts/` path (not `/data/glyphs/`)
+- `center` — exactly 2 values `[lon, lat]`; zoom is a separate field
+
+---
+
+## React Native Integration
+
+In your MapLibre React Native app, point to the style URL:
+
+```js
+const styleURL = 'http://<server-ip>:8080/styles/osm-liberty/style.json';
+```
+
+Replace `<server-ip>` with your machine's local IP (e.g. `192.168.1.100`). All sprites, fonts, and tiles load automatically from the style.
+
+For Arabic label support add the RTL plugin:
+
+```js
+import MapLibreGL from '@maplibre/maplibre-react-native';
+MapLibreGL.setRTLTextPlugin(
+  'https://unpkg.com/@mapbox/mapbox-gl-rtl-text@0.2.3/mapbox-gl-rtl-text.min.js'
+);
+```
+
+See [docs/REACT_NATIVE_SETUP.md](docs/REACT_NATIVE_SETUP.md) for complete examples.
+
+---
+
+## Documentation Index
+
+| File | Contents |
+|------|----------|
+| `QUICKSTART.md` | Fast setup from scratch |
+| `IMPLEMENTATION.md` | This file — architecture and file connections |
+| `docs/FONTS.md` | Font setup, configuration, and troubleshooting |
+| `docs/SPRITES_AND_ICONS.md` | Sprite setup and icon usage |
+| `docs/ICON_REFERENCE.md` | Full icon name reference |
+| `docs/REACT_NATIVE_SETUP.md` | MapLibre React Native integration |
+
+---
+
+## Known Issues and Fixes Applied
+
+| Issue | Cause | Fix |
+|-------|-------|-----|
+| `bash` commands fail on Windows | No WSL distro installed | Use `.ps1` scripts instead |
+| `npm install -g tileserver-gl` fails in Docker | `canvas` native module needs Python/build tools | Use `maptiler/tileserver-gl` Docker image directly |
+| Sprites 404 | Original URLs pointed to `osm-bright.*` files | Files are named `osm-liberty.*` on the gh-pages branch |
+| Font glyphs 404 | Style used `/data/glyphs/` path | Correct path is `/fonts/` |
+| Planetiler fails on missing sources | OpenMapTiles profile needs extra geo datasets | Add `--download` flag to Planetiler command |
+| Style validation warning | `center` had 3 values `[lon, lat, zoom]` | Fixed to 2 values `[lon, lat]`; zoom is separate |
+| `tileserver-gl-config.json` wrong structure | `styles`/`data` nested under `options` | Moved to top-level keys with correct `paths` config |
+
+---
+
+## External Resources
+
+- [Planetiler](https://github.com/onthegomap/planetiler)
+- [TileServer GL](https://github.com/maptiler/tileserver-gl)
+- [maptiler/tileserver-gl Docker](https://hub.docker.com/r/maptiler/tileserver-gl)
+- [MapLibre GL JS](https://maplibre.org/maplibre-gl-js/docs/)
+- [MapLibre React Native](https://maplibre.org/maplibre-react-native/)
+- [OpenMapTiles Schema](https://openmaptiles.org/schema/)
+- [Geofabrik Algeria](https://download.geofabrik.de/africa/algeria.html)
+- [OSM Liberty Style](https://github.com/openmaptiles/osm-liberty-gl-style)
+- [OpenMapTiles Fonts](https://github.com/openmaptiles/fonts)

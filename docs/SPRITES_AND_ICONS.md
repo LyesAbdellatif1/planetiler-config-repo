@@ -7,7 +7,7 @@ Complete guide for using and customizing sprites and icons in your Algerian Tile
 Sprites are sprite sheets containing multiple icon images. They're used to efficiently render map icons and symbols in MapLibre GL. This setup includes:
 
 - **Maki Icons** - 600+ icons from MapBox's Maki project
-- **OSM Bright Sprites** - Pre-built sprite sheets optimized for OpenStreetMap
+- **OSM Liberty Sprites** - Pre-built sprite sheets from the osm-liberty-gl-style project
 - **High-DPI Support** - @2x versions for Retina displays
 - **Icon Categories** - Pre-mapped icon names for POI rendering
 
@@ -32,8 +32,8 @@ data/
 
 ### Step 1: Download Sprites and Icons
 
-```bash
-bash scripts/setup-sprites.sh
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-sprites.ps1
 ```
 
 This will:
@@ -51,8 +51,8 @@ Expected downloads:
 
 Check that sprite files exist:
 
-```bash
-ls -lh data/sprites/osm-liberty*.{png,json}
+```powershell
+Get-ChildItem data\sprites\osm-liberty*
 ```
 
 You should see 4 files:
@@ -63,12 +63,18 @@ You should see 4 files:
 
 ### Step 3: Start TileServer GL
 
+```powershell
+docker-compose up
+```
+
 Sprites are automatically served at:
 
 ```
 http://localhost:8080/sprites/osm-liberty
 http://localhost:8080/sprites/osm-liberty@2x
 ```
+
+TileServer GL finds the sprite files because `tileserver-gl-config.json` sets `paths.sprites = "sprites"` relative to `root = /data`, resolving to `/data/sprites/`.
 
 ## MapLibre GL Configuration
 
@@ -401,8 +407,8 @@ Complete example adding POI icons to your style:
 **Solutions:**
 
 1. Verify sprite files exist:
-   ```bash
-   ls -lh data/sprites/osm-liberty*.png
+   ```powershell
+   Get-ChildItem data\sprites\osm-liberty*.png
    ```
 
 2. Check sprite URL in style is correct:
@@ -413,8 +419,8 @@ Complete example adding POI icons to your style:
    ```
 
 3. Verify TileServer GL is running:
-   ```bash
-   curl http://localhost:8080/sprites/osm-liberty.json
+   ```powershell
+   Invoke-WebRequest http://localhost:8080/sprites/osm-liberty.json
    ```
 
 4. Check browser console for 404 errors
@@ -424,9 +430,9 @@ Complete example adding POI icons to your style:
 
 **Solution:** Verify @2x sprites are being served:
 
-```bash
+```powershell
 # Check file sizes - @2x should be ~4x larger
-ls -lh data/sprites/osm-liberty*.png
+Get-ChildItem data\sprites\osm-liberty*.png | Select-Object Name, Length
 
 # Monitor requests in browser DevTools
 # Should show osm-liberty@2x.png on high-DPI devices
@@ -473,8 +479,8 @@ ls -lh data/sprites/osm-liberty*.png
    ```
 
 3. Verify network connectivity:
-   ```bash
-   curl http://192.168.1.100:8080/sprites/osm-liberty.json
+   ```powershell
+   Invoke-WebRequest http://192.168.1.100:8080/sprites/osm-liberty.json
    ```
 
 ## Performance Tips

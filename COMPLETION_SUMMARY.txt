@@ -25,9 +25,9 @@ FILES CREATED (18 new files)
 
 🚀 SCRIPTS (4 executable scripts)
   ✓ scripts/download-algeria-data.sh    - Downloads Algerian OSM data
-  ✓ scripts/download-fonts.sh           - Downloads fonts for text rendering
+  ✓ scripts/download-fonts.ps1           - Downloads fonts for text rendering
   ✓ scripts/process-tiles.js            - Generates MBTiles from OSM data
-  ✓ scripts/verify-setup.sh             - Verifies all prerequisites
+  ✓ scripts/verify-setup.ps1             - Verifies all prerequisites
 
 ⚙️  CONFIGURATION (4 files)
   ✓ tileserver-gl-config.json      - TileServer GL server config
@@ -208,20 +208,20 @@ The implementation is fully ready for:
 NEXT STEPS FOR USER
 ================================================================================
 
-IMMEDIATELY (Today)
+IMMEDIATELY 
   1. Run: bash scripts/verify-setup.sh
   2. Run: bash scripts/download-algeria-data.sh
   3. Run: npm install -g @mapbox/tileserver-gl-cli
   4. Run: npm run tileserver
   5. Open: http://localhost:8080
 
-SOON (This Week)
+SOON 
   1. Integrate with React Native app
   2. Customize map style (osm-liberty-style.json)
   3. Download fonts for better text rendering
   4. Test all features in your environment
 
-LATER (This Month)
+LATER 
   1. Deploy to production server
   2. Set up monitoring and logging
   3. Configure backups for MBTiles

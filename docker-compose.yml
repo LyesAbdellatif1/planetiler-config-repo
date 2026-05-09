@@ -1,22 +1,17 @@
-version: '3.8'
-
 services:
   tileserver:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: maptiler/tileserver-gl:latest
     ports:
       - "8080:8080"
     volumes:
-      - ./data:/app/data
-      - ./osm-liberty-style.json:/app/osm-liberty-style.json
-      - ./tileserver-gl-config.json:/app/tileserver-gl-config.json
-    environment:
-      - NODE_ENV=production
+      - ./data:/data
+      - ./tileserver-gl-config.json:/data/config.json
+      - ./osm-liberty-style.json:/data/osm-liberty-style.json
+    command: ["--config", "/data/config.json", "--port", "8080", "--verbose"]
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8080/data" ]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
       interval: 30s
-      timeout: 3s
+      timeout: 5s
       retries: 3
-      start_period: 40s
+      start_period: 20s

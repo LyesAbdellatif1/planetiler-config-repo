@@ -419,11 +419,11 @@ Visit [Maki Editor](https://labs.mapbox.com/maki/) to browse all 600+ icons visu
 
 ### Method 2: Check Sprite Metadata
 
-```bash
-curl http://localhost:8080/sprites/osm-liberty.json | jq 'keys[]'
+```powershell
+(Invoke-WebRequest http://localhost:8080/sprites/osm-liberty.json).Content
 ```
 
-This lists all available icon names.
+This returns the full sprite JSON with all available icon names and their pixel coordinates.
 
 ### Method 3: Search
 
@@ -456,9 +456,10 @@ To color icons dynamically based on data:
 2. Verify sprite URL is configured
 3. Ensure file is in sprite JSON metadata
 
-```bash
-# Check if icon exists
-curl http://localhost:8080/sprites/osm-liberty.json | jq '.["restaurant-15"]'
+```powershell
+# Check if icon exists in sprite metadata
+$sprite = (Invoke-WebRequest http://localhost:8080/sprites/osm-liberty.json).Content | ConvertFrom-Json
+$sprite.'restaurant-15'
 ```
 
 ### Wrong Icon Size
