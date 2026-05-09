@@ -7,13 +7,31 @@ yarn-error.log
 .pnpm-debug.log
 
 # ========================
-# Geospatial / Tile Data (CRITICAL)
+# Geospatial / Tile Data
 # ========================
 data/
 
-# If you ever need exceptions:
+# Keep only configs
 !data/config.json
 !data/osm-liberty-style.json
+
+# Heavy GIS / tile files
+*.mbtiles
+*.pmtiles
+*.pbf
+*.osm.pbf
+*.sqlite
+*.sqlite3
+*.gpkg
+*.geojson
+*.zip
+*.7z
+*.tar
+*.gz
+*.tsv.gz
+
+# Planetiler generated
+tile_weights.tsv.gz
 
 # ========================
 # Environment
