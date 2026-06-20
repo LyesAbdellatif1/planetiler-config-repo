@@ -781,14 +781,771 @@
     },
 
     {
-      "id": "poi_general",
+      "id": "poi_hospital",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 12,
+      "filter": ["==", "subclass", "hospital"],
+      "layout": {
+        "icon-image": "hospital_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#b30000", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_fire_station",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 12,
+      "filter": ["==", "subclass", "fire_station"],
+      "layout": {
+        "icon-image": "fire_station_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#cc4400", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_pharmacy",
       "type": "symbol",
       "source": "openmaptiles",
       "source-layer": "poi",
       "minzoom": 13,
+      "filter": ["==", "subclass", "pharmacy"],
+      "layout": {
+        "icon-image": "pharmacy_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#b30000", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_doctor",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["in", "subclass", "doctors", "clinic"],
+      "layout": {
+        "icon-image": "doctors_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#b30000", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_dentist",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "dentist"],
+      "layout": {
+        "icon-image": "dentist_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#b30000", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_veterinary",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "veterinary"],
+      "layout": {
+        "icon-image": "veterinary_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#b30000", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_school",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["in", "subclass", "school", "kindergarten"],
+      "layout": {
+        "icon-image": "school_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#336600", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_college",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["in", "subclass", "college", "university"],
+      "layout": {
+        "icon-image": "college_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#336600", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_mosque",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "mosque"],
+      "layout": {
+        "icon-image": "religious_muslim_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#7b2d8b", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_worship",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["all", ["==", "class", "place_of_worship"], ["!=", "subclass", "mosque"]],
+      "layout": {
+        "icon-image": "place_of_worship_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#7b2d8b", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_hotel",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "class", "lodging"],
+      "layout": {
+        "icon-image": "lodging_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#cc6600", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_bank",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["in", "subclass", "bank", "atm"],
+      "layout": {
+        "icon-image": "bank_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#003399", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_fuel",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "fuel"],
+      "layout": {
+        "icon-image": "fuel_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#555555", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_police",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "police"],
+      "layout": {
+        "icon-image": "police_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#1a4488", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_prison",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "prison"],
+      "layout": {
+        "icon-image": "prison_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#1a4488", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_town_hall",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "town_hall"],
+      "layout": {
+        "icon-image": "town_hall_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#1a4488", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_post",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "post_office"],
+      "layout": {
+        "icon-image": "post_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#1a4488", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_embassy",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "filter": ["==", "subclass", "embassy"],
+      "layout": {
+        "icon-image": "embassy_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#1a4488", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_restaurant",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "subclass", "restaurant"],
+      "layout": {
+        "icon-image": "restaurant_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#994400", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_cafe",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "cafe", "bakery"],
+      "layout": {
+        "icon-image": "cafe_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#994400", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_fast_food",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "subclass", "fast_food"],
+      "layout": {
+        "icon-image": "fast_food_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#994400", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_bar",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "bar", "pub", "biergarten"],
+      "layout": {
+        "icon-image": "bar_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#994400", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_grocery",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "supermarket", "convenience", "grocery"],
+      "layout": {
+        "icon-image": "grocery_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#336699", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_shop",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "class", "shop"],
+      "layout": {
+        "icon-image": "shop_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#336699", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_hairdresser",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "hairdresser", "beauty"],
+      "layout": {
+        "icon-image": "hairdresser_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#336699", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_parking",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "parking", "multi-storey"],
+      "layout": {
+        "icon-image": "parking_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#555555", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_library",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "subclass", "library"],
+      "layout": {
+        "icon-image": "library_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#336600", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_cinema",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "subclass", "cinema"],
+      "layout": {
+        "icon-image": "cinema_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#444444", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_museum",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "museum", "gallery", "art_gallery"],
+      "layout": {
+        "icon-image": "museum_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#444444", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_theatre",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "subclass", "theatre"],
+      "layout": {
+        "icon-image": "theatre_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#444444", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_zoo",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "zoo", "aquarium", "amusement_ride"],
+      "layout": {
+        "icon-image": "zoo_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#444444", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_stadium",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "stadium", "sports_centre"],
+      "layout": {
+        "icon-image": "stadium_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#444444", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_playground",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "playground", "dog_park"],
+      "layout": {
+        "icon-image": "playground_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#336600", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_castle",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "castle", "monument", "attraction"],
+      "layout": {
+        "icon-image": "castle_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#444444", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_information",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["in", "subclass", "information", "tourist_info"],
+      "layout": {
+        "icon-image": "information_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#555555", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_toilets",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "subclass", "toilets"],
+      "layout": {
+        "icon-image": "toilets_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#555555", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_general_z12",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 12,
+      "maxzoom": 13,
       "filter": [
         "all",
-        ["<=", "rank", 2],
+        ["<=", "rank", 3],
         ["!in", "class", "railway", "bus", "ferry", "aerialway"]
       ],
       "layout": {
@@ -797,6 +1554,54 @@
         "text-size": 10,
         "text-anchor": "top",
         "text-offset": [0, 0.3],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#666666", "text-halo-color": "#ffffff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_general_z13",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 13,
+      "maxzoom": 14,
+      "filter": [
+        "all",
+        ["<=", "rank", 8],
+        ["!in", "class", "railway", "bus", "ferry", "aerialway"]
+      ],
+      "layout": {
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.3],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#666666", "text-halo-color": "#ffffff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_general_z14",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": [
+        "all",
+        ["<=", "rank", 30],
+        ["!in", "class", "railway", "bus", "ferry", "aerialway"]
+      ],
+      "layout": {
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.3],
+        "text-optional": true,
         "text-max-width": 8
       },
       "paint": { "text-color": "#666666", "text-halo-color": "#ffffff", "text-halo-width": 1 }

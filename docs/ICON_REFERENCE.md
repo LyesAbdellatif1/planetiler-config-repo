@@ -497,3 +497,9 @@ No attribution required, but appreciated!
 - [Maki GitHub](https://github.com/mapbox/maki)
 - [OSM Liberty Sprites](https://github.com/openmaptiles/osm-liberty-gl-style)
 - [MapLibre Style Spec](https://maplibre.org/maplibre-gl-js/docs/API/types/StyleSpecification/)
+
+
+TO List all sprite icon names 
+(Get-Content "c:\ProjectsRepo\planetiler-config-repo\data\sprites\osm-liberty.json" -Raw | ConvertFrom-Json).PSObject.Properties.Name | Sort-Object | Where-Object { $_ -notmatch "@2x" }
+
+missing icons: prison, parking_garage, fire_station, town_hall, drinking_water, toilets, hairdresser, dentist, veterinary, amusement_park, aquarium, art_gallery, castle, monument, playground, campsite, harbor, heliport, information, waste_basket, and all the sport icons. 

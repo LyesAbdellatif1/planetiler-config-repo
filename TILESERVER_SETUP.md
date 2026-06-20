@@ -507,3 +507,8 @@ For issues with this setup:
 3. → Integrate with React Native MapLibre (see REACT_NATIVE_SETUP.md)
 4. → Deploy to production environment
 5. → Monitor performance and optimize as needed
+
+
+To Restart tileserver-gl container : 
+
+cd "c:\ProjectsRepo\planetiler-config-repo"; docker compose restart tileserver 2>&1
