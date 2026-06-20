@@ -120,15 +120,17 @@ bash scripts/download-fonts.sh
 
 ## 📖 Documentation Guide
 
-| File | Purpose | Length | When to Read |
-|------|---------|--------|--------------|
-| README.md | Overview | 395 lines | First! |
-| QUICKSTART.md | Fast setup | 152 lines | Want quick start |
-| TILESERVER_SETUP.md | Complete guide | 510 lines | Need details |
-| IMPLEMENTATION.md | Architecture | 306 lines | Want to understand |
-| SETUP_VISUAL_GUIDE.md | Visual walkthrough | 364 lines | Prefer diagrams |
-| REACT_NATIVE_SETUP.md | Mobile guide | 376 lines | Building React Native |
-| COMPLETION_SUMMARY.txt | Project summary | 336 lines | Want overview |
+| File | Purpose | When to Read |
+|------|---------|--------------|
+| README.md | Overview | First! |
+| QUICKSTART.md | Fast setup | Want quick start |
+| TILESERVER_SETUP.md | Complete guide | Need details |
+| IMPLEMENTATION.md | Architecture | Want to understand |
+| SETUP_VISUAL_GUIDE.md | Visual walkthrough | Prefer diagrams |
+| docs/REACT_NATIVE_SETUP.md | Mobile guide | Building React Native |
+| docs/OVERTURE_INTEGRATION.md | Overture Maps POI enrichment | Adding commercial POIs |
+| docs/ICON_REFERENCE.md | Sprite icon catalogue | Customizing POI icons |
+| docs/TROUBLESHOOTING.md | Common issues & fixes | Something broke |
 
 ## 🛠️ Available npm Scripts
 

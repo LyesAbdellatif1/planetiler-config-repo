@@ -16,6 +16,9 @@
   "data": {
     "algeria": {
       "mbtiles": "algeria.mbtiles"
+    },
+    "overture": {
+      "mbtiles": "overture-algeria.mbtiles"
     }
   }
 }
