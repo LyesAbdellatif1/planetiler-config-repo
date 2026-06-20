@@ -1,6 +1,6 @@
 # Overture Maps Integration
 
-Adds 40,000+ commercial POIs (restaurants, shops, clinics, schools, etc.) from Overture Maps to the existing OSM tile server, served as a separate vector tile source alongside the OSM MBTiles.
+Adds 43,000+ commercial POIs (restaurants, shops, clinics, schools, etc.) from Overture Maps to the existing OSM tile server, served as a separate vector tile source alongside the OSM MBTiles.
 
 ## Architecture
 
@@ -55,13 +55,15 @@ docker run --rm `
 
 **Script:** `scripts/flatten-overture.py`
 
-**Output:** `data/overture/algeria-overture-flat.geojson` (~9 MB, 40,870 features)
+**Output:** `data/overture/algeria-overture-flat.geojson` (~9 MB, 43,390 features)
 
 Results after filtering:
 
 | Kept | Skipped (geographic) | Skipped (low confidence) | Skipped (unmapped) |
 |---|---|---|---|
-| 40,870 | 25,568 | 10,256 | 4,979 |
+| 43,390 | 25,568 | 10,256 | 2,459 |
+
+> **Note:** The unmapped count dropped from 4,979 to 2,459 after a second-pass audit (see [Audit and Extended Mappings](#audit-and-extended-mappings) below).
 
 Top subclasses in output:
 
@@ -72,12 +74,14 @@ Top subclasses in output:
 | clothes | 4,235 |
 | restaurant | 3,146 |
 | doctors | 2,212 |
+| car_repair | 1,470 |
 | hairdresser | 1,530 |
 | dentist | 1,274 |
 | furniture | 1,150 |
 | hotel | 1,142 |
 | attraction | 1,124 |
 | college | 1,094 |
+| fast_food | 380 |
 | hospital | 876 |
 | pharmacy | 838 |
 | sports_centre | 795 |
@@ -153,7 +157,7 @@ In `osm-liberty-style.json`, add the `overture` source alongside the existing `o
 
 ## Step 6 — Add Style Layers
 
-37 `ov_*` layers were added to `osm-liberty-style.json` after the `poi_general_z14` layer. Each targets `"source": "overture"` and `"source-layer": "place"`.
+38 `ov_*` layers were added to `osm-liberty-style.json` after the `poi_general_z14` layer. Each targets `"source": "overture"` and `"source-layer": "place"`.
 
 Structure of each layer:
 
@@ -190,7 +194,7 @@ Full layer list by zoom:
 
 **Zoom 13 (neighbourhood):** `ov_pharmacy`, `ov_doctor`, `ov_dentist`, `ov_veterinary`, `ov_school`, `ov_college`, `ov_library`, `ov_mosque`, `ov_worship`, `ov_hotel`, `ov_bank`, `ov_fuel`, `ov_police`, `ov_prison`, `ov_town_hall`, `ov_post`, `ov_embassy`
 
-**Zoom 14 (street):** `ov_restaurant`, `ov_cafe`, `ov_fast_food`, `ov_bakery`, `ov_bar`, `ov_grocery`, `ov_shop`, `ov_clothing`, `ov_hairdresser`, `ov_parking`, `ov_museum`, `ov_cinema`, `ov_theatre`, `ov_stadium`, `ov_attraction`, `ov_butcher`, `ov_florist`, `ov_laundry`
+**Zoom 14 (street):** `ov_restaurant`, `ov_cafe`, `ov_fast_food`, `ov_bakery`, `ov_bar`, `ov_grocery`, `ov_shop`, `ov_clothing`, `ov_hairdresser`, `ov_parking`, `ov_museum`, `ov_cinema`, `ov_theatre`, `ov_stadium`, `ov_attraction`, `ov_butcher`, `ov_florist`, `ov_laundry`, `ov_car_repair`
 
 ---
 
@@ -249,6 +253,71 @@ These files are excluded from git (see `.gitignore`).
 
 ---
 
+## Audit and Extended Mappings
+
+After the initial integration, a second audit (`scripts/audit-unmapped.py`) scanned the 4,979 originally-skipped features to identify recoverable categories.
+
+### How to run the audit
+
+```powershell
+docker run --rm `
+  -v "c:/ProjectsRepo/planetiler-config-repo/data/overture:/data" `
+  -v "c:/ProjectsRepo/planetiler-config-repo/scripts:/scripts" `
+  python:3.11-slim `
+  python /scripts/audit-unmapped.py /data/algeria-overture.geojson
+```
+
+### Audit results (top unmapped categories found)
+
+| Count | Category | Action taken |
+|---|---|---|
+| 2,136 | *(empty string)* | Skip — no category data |
+| 622 | `automotive_repair` | → `car_repair` |
+| 517 | `automotive_parts_and_accessories` | → `car_repair` |
+| 380 | `fast_food_restaurant` | → `fast_food` |
+| 160 | `driving_school` | → `school` |
+| 138 | `active_life` | → `sports_centre` |
+| 122 | `automotive` | → `car_repair` |
+| 113 | `car_wash` | → `car_repair` |
+| 96 | `sewing_and_alterations` | → `shop` |
+| 92 | `transportation` | Skip (B2B) |
+| 67 | `machine_shop` | Skip (B2B) |
+| 45 | `tire_dealer_and_repair` | → `car_repair` |
+| 43 | `auto_company` | → `car_repair` |
+| 36 | `tutoring_center` | → `school` |
+
+### Categories added in second pass (added to `CATEGORY_MAP` in `flatten-overture.py`)
+
+```python
+# Automotive
+"automotive_repair": "car_repair", "automotive_parts_and_accessories": "car_repair",
+"automotive": "car_repair", "car_wash": "car_repair",
+"tire_dealer_and_repair": "car_repair", "auto_company": "car_repair",
+
+# Food (missed variants)
+"fast_food_restaurant": "fast_food",
+"hotel_bar": "bar", "brewery": "bar", "cheese_shop": "grocery",
+
+# Education
+"driving_school": "school", "tutoring_center": "school",
+
+# Health
+"allergist": "doctors", "podiatrist": "doctors", "fertility": "doctors",
+"teeth_whitening": "dentist",
+
+# Leisure
+"active_life": "sports_centre", "pool_billiards": "sports_centre",
+"bowling_alley": "sports_centre",
+
+# Shops & services
+"sewing_and_alterations": "shop", "nursery_and_gardening": "shop",
+"hunting_and_fishing_supplies": "shop", "lighting_store": "shop",
+```
+
+**Net result:** 40,870 → **43,390 POIs** (+2,520). Remaining 2,459 skipped = 2,136 empty-category + 323 niche.
+
+---
+
 ## Verification Commands
 
 ```powershell
@@ -262,7 +331,7 @@ docker run --rm -v "c:/ProjectsRepo/planetiler-config-repo/data:/data" alpine `
 
 # Confirm style JSON is valid
 Get-Content "osm-liberty-style.json" -Raw | ConvertFrom-Json | Select-Object -ExpandProperty layers | Where-Object { $_.id -like "ov_*" } | Measure-Object
-# Expected: Count = 37
+# Expected: Count = 38
 
 # Check TileServer is serving both sources
 Invoke-WebRequest "http://localhost:8080/data/overture.json" | Select-Object StatusCode

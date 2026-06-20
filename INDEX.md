@@ -128,7 +128,8 @@ bash scripts/download-fonts.sh
 | IMPLEMENTATION.md | Architecture | Want to understand |
 | SETUP_VISUAL_GUIDE.md | Visual walkthrough | Prefer diagrams |
 | docs/REACT_NATIVE_SETUP.md | Mobile guide | Building React Native |
-| docs/OVERTURE_INTEGRATION.md | Overture Maps POI enrichment | Adding commercial POIs |
+| docs/OVERTURE_INTEGRATION.md | Overture Maps POI enrichment (43,390 POIs) | Adding/refreshing commercial POIs |
+| docs/OSM_POI_FIXES.md | OSM style filter corrections (+561 unlocked POIs) | Understanding OMT subclass quirks |
 | docs/ICON_REFERENCE.md | Sprite icon catalogue | Customizing POI icons |
 | docs/TROUBLESHOOTING.md | Common issues & fixes | Something broke |
 

@@ -958,7 +958,7 @@
       "source": "openmaptiles",
       "source-layer": "poi",
       "minzoom": 13,
-      "filter": ["==", "subclass", "mosque"],
+      "filter": ["==", "subclass", "muslim"],
       "layout": {
         "icon-image": "religious_muslim_11",
         "icon-size": 1,
@@ -979,7 +979,7 @@
       "source": "openmaptiles",
       "source-layer": "poi",
       "minzoom": 13,
-      "filter": ["all", ["==", "class", "place_of_worship"], ["!=", "subclass", "mosque"]],
+      "filter": ["all", ["==", "class", "place_of_worship"], ["!=", "subclass", "muslim"]],
       "layout": {
         "icon-image": "place_of_worship_11",
         "icon-size": 1,
@@ -1105,7 +1105,7 @@
       "source": "openmaptiles",
       "source-layer": "poi",
       "minzoom": 13,
-      "filter": ["==", "subclass", "town_hall"],
+      "filter": ["in", "subclass", "town_hall", "townhall", "government", "community_centre", "courthouse", "public_building"],
       "layout": {
         "icon-image": "town_hall_11",
         "icon-size": 1,
@@ -1147,7 +1147,7 @@
       "source": "openmaptiles",
       "source-layer": "poi",
       "minzoom": 13,
-      "filter": ["==", "subclass", "embassy"],
+      "filter": ["in", "subclass", "embassy", "diplomatic"],
       "layout": {
         "icon-image": "embassy_11",
         "icon-size": 1,
@@ -1231,7 +1231,7 @@
       "source": "openmaptiles",
       "source-layer": "poi",
       "minzoom": 14,
-      "filter": ["in", "subclass", "bar", "pub", "biergarten"],
+      "filter": ["in", "subclass", "bar", "pub", "biergarten", "nightclub"],
       "layout": {
         "icon-image": "bar_11",
         "icon-size": 1,
@@ -1252,7 +1252,7 @@
       "source": "openmaptiles",
       "source-layer": "poi",
       "minzoom": 14,
-      "filter": ["in", "subclass", "supermarket", "convenience", "grocery"],
+      "filter": ["in", "subclass", "supermarket", "convenience", "grocery", "marketplace", "department_store", "greengrocer"],
       "layout": {
         "icon-image": "grocery_11",
         "icon-size": 1,
@@ -1286,6 +1286,48 @@
         "text-max-width": 8
       },
       "paint": { "text-color": "#336699", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_clothing",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "class", "clothing_store"],
+      "layout": {
+        "icon-image": "clothing_store_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#336699", "text-halo-color": "#fff", "text-halo-width": 1 }
+    },
+
+    {
+      "id": "poi_car",
+      "type": "symbol",
+      "source": "openmaptiles",
+      "source-layer": "poi",
+      "minzoom": 14,
+      "filter": ["==", "class", "car"],
+      "layout": {
+        "icon-image": "car_11",
+        "icon-size": 1,
+        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"]],
+        "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"],
+        "text-size": 10,
+        "text-anchor": "top",
+        "text-offset": [0, 0.9],
+        "text-optional": true,
+        "text-max-width": 8
+      },
+      "paint": { "text-color": "#555555", "text-halo-color": "#fff", "text-halo-width": 1 }
     },
 
     {
@@ -1648,6 +1690,7 @@
     { "id": "ov_butcher",    "type": "symbol", "source": "overture", "source-layer": "place", "minzoom": 14, "filter": ["==", "subclass", "butcher"],    "layout": { "icon-image": "butcher_11",    "icon-size": 1, "text-field": ["get", "name"], "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"], "text-size": 10, "text-anchor": "top", "text-offset": [0, 0.9], "text-optional": true, "text-max-width": 8 }, "paint": { "text-color": "#994400", "text-halo-color": "#fff", "text-halo-width": 1 } },
     { "id": "ov_florist",    "type": "symbol", "source": "overture", "source-layer": "place", "minzoom": 14, "filter": ["==", "subclass", "florist"],    "layout": { "icon-image": "florist",       "icon-size": 1, "text-field": ["get", "name"], "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"], "text-size": 10, "text-anchor": "top", "text-offset": [0, 0.9], "text-optional": true, "text-max-width": 8 }, "paint": { "text-color": "#336699", "text-halo-color": "#fff", "text-halo-width": 1 } },
     { "id": "ov_laundry",    "type": "symbol", "source": "overture", "source-layer": "place", "minzoom": 14, "filter": ["==", "subclass", "laundry"],    "layout": { "icon-image": "laundry_11",    "icon-size": 1, "text-field": ["get", "name"], "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"], "text-size": 10, "text-anchor": "top", "text-offset": [0, 0.9], "text-optional": true, "text-max-width": 8 }, "paint": { "text-color": "#555555", "text-halo-color": "#fff", "text-halo-width": 1 } },
+    { "id": "ov_car_repair", "type": "symbol", "source": "overture", "source-layer": "place", "minzoom": 14, "filter": ["==", "subclass", "car_repair"],  "layout": { "icon-image": "car_11",        "icon-size": 1, "text-field": ["get", "name"], "text-font": ["Open Sans Regular", "Arial Unicode MS Regular"], "text-size": 10, "text-anchor": "top", "text-offset": [0, 0.9], "text-optional": true, "text-max-width": 8 }, "paint": { "text-color": "#555555", "text-halo-color": "#fff", "text-halo-width": 1 } },
 
     {
       "id": "place_label_suburb",

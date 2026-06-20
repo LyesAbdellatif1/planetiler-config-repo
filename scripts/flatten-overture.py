@@ -324,6 +324,61 @@ CATEGORY_MAP = {
 
     "professional_services": "office",
     "community_services_non_profits": "office",
+
+    # --- AUTOMOTIVE ---
+    "automotive_repair": "car_repair", "automotive_parts_and_accessories": "car_repair",
+    "automotive": "car_repair", "car_wash": "car_repair",
+    "tire_dealer_and_repair": "car_repair", "auto_company": "car_repair",
+    "emissions_inspection": "car_repair", "automotive_consultant": "car_repair",
+    "auto_parts_and_supply_store": "car_repair",
+    "automotive_wheel_polishing_service": "car_repair",
+    "recreation_vehicle_repair": "car_repair",
+
+    # --- FOOD (missed variants) ---
+    "fast_food_restaurant": "fast_food",
+    "hotel_bar": "bar", "brewery": "bar",
+    "cheese_shop": "grocery",
+    "russian_restaurant": "restaurant", "ecuadorian_restaurant": "restaurant",
+    "fondue_restaurant": "restaurant", "indo_chinese_restaurant": "restaurant",
+    "basque_restaurant": "restaurant", "texmex_restaurant": "restaurant",
+    "polynesian_restaurant": "restaurant",
+
+    # --- EDUCATION ---
+    "driving_school": "school", "tutoring_center": "school",
+    "educational_camp": "school", "first_aid_class": "school",
+
+    # --- HEALTH ---
+    "allergist": "doctors", "podiatrist": "doctors",
+    "fertility": "doctors", "home_health_care": "doctors",
+    "senior_citizen_services": "doctors",
+    "teeth_whitening": "dentist",
+
+    # --- LEISURE ---
+    "active_life": "sports_centre", "pool_billiards": "sports_centre",
+    "squash_court": "pitch", "swimming_instructor": "swimming",
+    "bowling_alley": "sports_centre",
+
+    # --- SHOPS & SERVICES ---
+    "sewing_and_alterations": "shop", "nursery_and_gardening": "shop",
+    "hunting_and_fishing_supplies": "shop", "photography_store_and_services": "shop",
+    "lighting_store": "shop", "aquatic_pet_store": "shop",
+    "home_and_garden": "shop", "key_and_locksmith": "shop",
+    "newspaper_and_magazines_store": "shop", "paint_store": "shop",
+    "electrical_supply_store": "shop", "shoe_repair": "shop",
+    "motorsports_store": "shop", "comic_books_store": "shop",
+    "mobile_phone_accessories": "shop", "swimwear_store": "clothes",
+
+    # --- TRANSPORT ---
+    "taxi_service": "car_rental",
+    "airport_lounge": "aerodrome", "airport_terminal": "aerodrome",
+    "airline": "aerodrome", "airlines": "aerodrome",
+    "public_transportation": "station",
+
+    # --- CULTURE ---
+    "civilization_museum": "museum",
+
+    # --- GOVERNMENT ---
+    "department_of_motor_vehicles": "town_hall",
 }
 
 # Minimum confidence threshold
