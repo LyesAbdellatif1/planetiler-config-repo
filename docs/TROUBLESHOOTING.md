@@ -4,6 +4,93 @@ Common errors encountered when setting up TileServer GL with sprites and fonts, 
 
 ---
 
+## Blank/Missing Regions on the Map
+
+### Error: Entire regions are blank white (no roads, buildings, or textures)
+
+**Symptom**
+
+Specific geographic areas — west Algeria (Oran, Tlemcen), far west (Tindouf), or deep south (Sahara) — render as blank white with no map features at all. East (Annaba, Constantine) and center (Algiers) work fine.
+
+**Root cause**
+
+The `--bounds` flag passed to Planetiler was too narrow, so tiles for those regions were never generated. The MBTiles file simply does not contain those tiles — it is not a style or rendering issue.
+
+The original incorrect bounds `2,18,9,37` started at **2°E longitude**, cutting off everything west of that line. Oran is at −0.6°E, Tlemcen at −1.3°E, and Tindouf at −8.1°E — all excluded.
+
+**Diagnose**
+
+Run the coverage script to confirm which regions are missing:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/diagnose-coverage.ps1
+```
+
+Also check the bounds stored in the MBTiles metadata:
+
+```powershell
+sqlite3 data\algeria.mbtiles "SELECT value FROM metadata WHERE name='bounds';"
+# Correct value: -9.5,18.5,9.5,37.5
+```
+
+**Fix**
+
+The bounds are set in two places — both must match:
+
+1. `planetiler-config.json` line 8:
+   ```json
+   "bounds": [-9.5, 18.5, 9.5, 37.5]
+   ```
+
+2. `scripts/run-planetiler.ps1`:
+   ```powershell
+   --bounds=-9.5,18.5,9.5,37.5
+   ```
+
+Then regenerate tiles:
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/run-planetiler.ps1
+```
+
+After regeneration, restart TileServer GL:
+```powershell
+docker-compose restart
+```
+
+---
+
+### Error: Planetiler fails with `Input/output error` during `osm_pass1`
+
+**Symptom**
+```
+java.io.IOException: Input/output error
+  at ArrayLongLongMapMmap$Segment.flushToDisk
+```
+
+**Root cause**
+
+`--nodemap-type=array` preallocates disk space proportional to the maximum OSM node ID globally (~76 GB), regardless of how much of the world you are tiling. This exhausts available disk space on most machines.
+
+**Fix**
+
+Use `--nodemap-type=sparsearray` instead. It only stores node IDs that are actually referenced by your input data, reducing disk usage to ~2–3 GB for Algeria:
+
+```powershell
+docker run --rm -v "c:/ProjectsRepo/planetiler-config-repo/data:/data" `
+  -e JAVA_TOOL_OPTIONS="-Xmx6g" `
+  ghcr.io/onthegomap/planetiler:latest `
+  --osm-path=/data/algeria-latest.osm.pbf `
+  --output=/data/algeria.mbtiles `
+  --bounds=-9.5,18.5,9.5,37.5 `
+  --minzoom=0 --maxzoom=14 `
+  --nodemap-type=sparsearray `
+  --storage=mmap --force
+```
+
+`scripts/run-planetiler.ps1` already uses `sparsearray` by default.
+
+---
+
 ## Sprites
 
 ### Error: `GET /sprites/osm-liberty.json 404`
@@ -361,7 +448,7 @@ Get-ChildItem data\sprites\osm-liberty*
 
 # 3. MBTiles exists
 Get-Item data\algeria.mbtiles
-# Expected: ~206 MB file
+# Expected: ~286 MB file
 
 # 4. Style sprite field is relative (not HTTP URL)
 Select-String -Path osm-liberty-style.json -Pattern '"sprite"'

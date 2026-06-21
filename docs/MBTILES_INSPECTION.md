@@ -84,13 +84,13 @@ powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles-visual.ps1
 -------------------------
   OSM (algeria.mbtiles)
 -------------------------
-  Size   : 206.29 MB
+  Size   : 285.8 MB
   PASS   Integrity check
-  Tiles  : 173409
+  Tiles  : 223000+
   Zooms  : 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14
 
   Metadata:
-    bounds           2,18,9,37
+    bounds           -9.5,18.5,9.5,37.5
     center           5.5,27.5,5
     format           pbf
     maxzoom          14
@@ -118,6 +118,35 @@ powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles-visual.ps1
 
   All checks passed.
 ```
+
+---
+
+### `scripts/diagnose-coverage.ps1`
+
+Checks whether tiles exist for key geographic locations across Algeria. Use this after regenerating tiles to confirm full coverage, especially for the west (Oran, Tlemcen, Tindouf) and south (Tamanrasset, In Salah).
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/diagnose-coverage.ps1
+```
+
+**Sample output (all regions covered):**
+```
+=== Algeria MBTiles Coverage Diagnostic ===
+Stored bounds: -9.5,18.5,9.5,37.5
+
+Checking tiles at zoom 8...
+
+  FOUND   Algiers (center)    (3.06, 36.74)
+  FOUND   Oran (west)         (-0.63, 35.69)
+  FOUND   Tlemcen (NW)        (-1.31, 34.88)
+  FOUND   Tindouf (far west)  (-8.1, 27.67)
+  FOUND   Tamanrasset (S)     (5.52, 22.78)
+  FOUND   In Salah (S)        (2.47, 27.2)
+  FOUND   Annaba (east)       (7.76, 36.9)
+  FOUND   Constantine (NE)    (6.61, 36.37)
+```
+
+If any location shows `MISSING`, the bounds used during tile generation were too narrow. See the Troubleshooting guide.
 
 ---
 
@@ -171,7 +200,7 @@ sqlite3 data\algeria.mbtiles "SELECT name, value FROM metadata ORDER BY name;"
 **Check bounds:**
 ```powershell
 sqlite3 data\algeria.mbtiles "SELECT value FROM metadata WHERE name='bounds';"
-# Expected: 2,18,9,37  (Algeria)
+# Expected: -9.5,18.5,9.5,37.5  (full Algeria including Oran and Tindouf)
 ```
 
 **Find largest tiles (debug performance):**
@@ -198,11 +227,11 @@ sqlite3 data\algeria.mbtiles "SELECT printf('%.2f MB', SUM(LENGTH(tile_data)) / 
 
 | Property | Expected |
 |----------|----------|
-| File size | ~206 MB |
-| Tile count | ~173,000 |
+| File size | ~286 MB |
+| Tile count | ~220,000+ |
 | Zoom levels | 0 – 14 |
 | Format | pbf (gzip compressed) |
-| Bounds | `2,18,9,37` |
+| Bounds | `-9.5,18.5,9.5,37.5` |
 | Largest tile | ~150 KB |
 
 ### `overture-algeria.mbtiles` (Overture POIs)

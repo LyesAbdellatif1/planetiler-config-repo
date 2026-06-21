@@ -28,10 +28,14 @@ Write-Host "Output: $OutputFile"
 Write-Host ""
 
 if (Test-Path $OutputFile) {
-    $answer = Read-Host "algeria.mbtiles already exists. Overwrite? (y/N)"
-    if ($answer -notmatch '^[Yy]') {
-        Write-Host "Aborted."
-        exit 0
+    if ($env:CI -or $env:FORCE_OVERWRITE) {
+        Write-Host "algeria.mbtiles exists - overwriting (non-interactive mode)."
+    } else {
+        $answer = Read-Host "algeria.mbtiles already exists. Overwrite? (y/N)"
+        if ($answer -notmatch '^[Yy]') {
+            Write-Host "Aborted."
+            exit 0
+        }
     }
 }
 
@@ -51,13 +55,14 @@ docker run --rm `
     ghcr.io/onthegomap/planetiler:latest `
     --osm-path=/data/algeria-latest.osm.pbf `
     --output=/data/algeria.mbtiles `
-    --bounds=2.0,18.0,9.0,37.0 `
+    --bounds=-9.5,18.5,9.5,37.5 `
     --minzoom=0 `
     --maxzoom=14 `
     --download `
     --download-threads=4 `
-    --nodemap-type=array `
-    --storage=mmap
+    --nodemap-type=sparsearray `
+    --storage=mmap `
+    --force
 
 if ($LASTEXITCODE -eq 0 -and (Test-Path $OutputFile)) {
     $SizeMB = [math]::Round((Get-Item $OutputFile).Length / 1MB, 1)

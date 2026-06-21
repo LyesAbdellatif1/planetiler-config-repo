@@ -1,4 +1,4 @@
-# TileServer GL Setup Guide for Algerian OpenStreetMap Data
+﻿# TileServer GL Setup Guide for Algerian OpenStreetMap Data
 
 Complete guide to setting up a TileServer GL instance with Algerian OpenStreetMap data for use with React Native MapLibre.
 
@@ -18,7 +18,7 @@ Complete guide to setting up a TileServer GL instance with Algerian OpenStreetMa
 - Java 11+ (for Planetiler)
 - Node.js 14+ (for scripts)
 - 8GB RAM minimum (for Planetiler processing)
-- 50GB free disk space (for OSM data and processed tiles)
+- 10GB free disk space minimum (for OSM data, processed tiles, and temp files; do NOT use --nodemap-type=array which requires ~76GB)
 
 ### For TileServer GL:
 - Node.js 14+
@@ -502,11 +502,11 @@ For issues with this setup:
 
 ## Next Steps
 
-1. ✅ Download Algerian OSM data
-2. ✅ Set up TileServer GL
-3. → Integrate with React Native MapLibre (see REACT_NATIVE_SETUP.md)
-4. → Deploy to production environment
-5. → Monitor performance and optimize as needed
+1. âœ… Download Algerian OSM data
+2. âœ… Set up TileServer GL
+3. â†’ Integrate with React Native MapLibre (see REACT_NATIVE_SETUP.md)
+4. â†’ Deploy to production environment
+5. â†’ Monitor performance and optimize as needed
 
 
 To Restart tileserver-gl container : 

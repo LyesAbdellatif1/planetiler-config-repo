@@ -197,7 +197,7 @@ MBTiles files have a `.mbtiles` extension which DB Browser hides by default. To 
 5. Your `.mbtiles` files appear — select one and click **Open**
 
 Files you can open:
-- `algeria.mbtiles` — OSM base map (206 MB)
+- `algeria.mbtiles` — OSM base map (~286 MB, full Algeria)
 - `overture-algeria.mbtiles` — Overture POIs (5 MB)
 - `custom-algeria.mbtiles` — your custom POIs
 
@@ -216,7 +216,7 @@ Once a file is open you'll see four tabs:
 
 **Step 1 — Check metadata** (zoom levels, bounds, attribution):
 - Click **Browse Data** tab → select **metadata** table
-- You'll see key-value rows like `minzoom: 12`, `bounds: 2,18,9,37`, `format: pbf`
+- You'll see key-value rows like `minzoom: 12`, `bounds: -9.5,18.5,9.5,37.5`, `format: pbf`
 
 **Step 2 — Check tile counts**:
 - Click **Browse Data** tab → select **tiles** table
