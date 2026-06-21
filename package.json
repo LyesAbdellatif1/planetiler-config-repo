@@ -18,6 +18,9 @@
     "docker-clean": "docker-compose down -v && docker rmi algeria-tileserver:latest",
     "setup": "bash scripts/download-algeria-data.sh && bash scripts/setup-sprites.sh && echo '✓ Setup complete! Run: npm run tileserver'",
     "verify": "bash scripts/verify-setup.sh",
+    "verify:tiles": "powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles.ps1",
+    "verify:tiles:visual": "powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles-visual.ps1",
+    "verify:tiles:dashboard": "powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles-dashboard.ps1",
     "health": "curl -s http://localhost:8080/data | jq . || echo 'TileServer not running'"
   },
   "keywords": [

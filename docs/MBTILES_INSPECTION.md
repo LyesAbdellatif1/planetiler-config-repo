@@ -1,0 +1,266 @@
+# MBTiles Inspection Guide
+
+How to verify, inspect, and debug your `.mbtiles` files using the scripts in this project.
+
+---
+
+## Quick Start
+
+```powershell
+# HTML dashboard — opens in browser with charts (recommended)
+npm run verify:tiles:dashboard
+
+# Terminal visual dashboard with bar charts
+npm run verify:tiles:visual
+
+# Plain pass/fail output (good for scripting/CI)
+npm run verify:tiles
+```
+
+Both scripts check `data/algeria.mbtiles` and `data/overture-algeria.mbtiles`.
+
+---
+
+## Prerequisites
+
+**sqlite3** must be on your PATH. On this machine it ships with the Android SDK:
+
+```
+C:\Users\<you>\AppData\Local\Android\Sdk\platform-tools\sqlite3.exe
+```
+
+If it's not found, install it:
+
+```powershell
+choco install sqlite
+```
+
+Verify it works:
+
+```powershell
+sqlite3 --version
+```
+
+---
+
+## Scripts
+
+### `scripts/verify-mbtiles-dashboard.ps1`
+
+Generates `mbtiles-dashboard.html` and opens it in your browser. Includes:
+- Summary cards (tile counts and file sizes for both files)
+- Interactive bar charts (zoom distribution per file, powered by Chart.js)
+- Metadata tables (bounds, format, zoom range, attribution)
+- Color-coded integrity status
+
+```powershell
+npm run verify:tiles:dashboard
+# or directly:
+powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles-dashboard.ps1
+```
+
+The output file is written to `mbtiles-dashboard.html` at the project root and opens automatically.
+
+---
+
+### `scripts/verify-mbtiles-visual.ps1`
+
+Visual dashboard with bar charts and clean layout. Use this for day-to-day inspection.
+
+```powershell
+npm run verify:tiles:visual
+# or directly:
+powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles-visual.ps1
+```
+
+**Sample output:**
+
+```
+######################################
+#   MBTiles Verification Dashboard   #
+######################################
+  Project: C:\ProjectsRepo\planetiler-config-repo
+
+-------------------------
+  OSM (algeria.mbtiles)
+-------------------------
+  Size   : 206.29 MB
+  PASS   Integrity check
+  Tiles  : 173409
+  Zooms  : 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14
+
+  Metadata:
+    bounds           2,18,9,37
+    center           5.5,27.5,5
+    format           pbf
+    maxzoom          14
+    minzoom          0
+    name             OpenMapTiles
+
+  Zoom Distribution:
+    z 0  [                              ]  1
+    z12  [###                           ]  11900
+    z13  [#########                     ]  37521
+    z14  [##############################]  118905
+
+  Top 5 Largest Tiles:
+    z14 x8330 y9993  ->  149.9 KB
+    ...
+
+---------------------------------------
+  Overture (overture-algeria.mbtiles)
+---------------------------------------
+  Size   : 5.07 MB
+  PASS   Integrity check
+  Tiles  : 8332
+  Zooms  : 12,13,14
+  ...
+
+  All checks passed.
+```
+
+---
+
+### `scripts/verify-mbtiles.ps1`
+
+Plain text output — easier to parse in logs or CI pipelines.
+
+```powershell
+npm run verify:tiles
+# or directly:
+powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles.ps1
+```
+
+Exits with code `1` if any check fails, `0` on success.
+
+---
+
+## What Gets Checked
+
+| Check | What it means |
+|-------|--------------|
+| File exists + size | Basic sanity — confirm Planetiler/tippecanoe wrote the file |
+| `PRAGMA integrity_check` | SQLite-level corruption detection |
+| Tile count | Confirm tiles were actually written (empty = regenerate) |
+| Zoom levels present | Verify your expected zoom range (z12-14 for Overture, z0-14 for OSM) |
+| Metadata | Bounds, attribution, format, zoom range |
+| Zoom distribution | See which zoom levels have the most data |
+| Top 5 largest tiles | Identify dense areas that may slow rendering |
+
+---
+
+## Manual SQLite Queries
+
+If you need to go deeper, run queries directly. sqlite3 treats `|` as a column separator.
+
+**Count tiles:**
+```powershell
+sqlite3 data\algeria.mbtiles "SELECT COUNT(*) FROM tiles;"
+```
+
+**Tiles per zoom level:**
+```powershell
+sqlite3 data\algeria.mbtiles "SELECT zoom_level, COUNT(*) FROM tiles GROUP BY zoom_level ORDER BY zoom_level;"
+```
+
+**View metadata:**
+```powershell
+sqlite3 data\algeria.mbtiles "SELECT name, value FROM metadata ORDER BY name;"
+```
+
+**Check bounds:**
+```powershell
+sqlite3 data\algeria.mbtiles "SELECT value FROM metadata WHERE name='bounds';"
+# Expected: 2,18,9,37  (Algeria)
+```
+
+**Find largest tiles (debug performance):**
+```powershell
+sqlite3 data\algeria.mbtiles "SELECT zoom_level, tile_column, tile_row, LENGTH(tile_data) FROM tiles ORDER BY LENGTH(tile_data) DESC LIMIT 10;"
+```
+
+**File corruption check:**
+```powershell
+sqlite3 data\algeria.mbtiles "PRAGMA integrity_check;"
+# Expected: ok
+```
+
+**Total compressed size of all tile data:**
+```powershell
+sqlite3 data\algeria.mbtiles "SELECT printf('%.2f MB', SUM(LENGTH(tile_data)) / 1024.0 / 1024.0) FROM tiles;"
+```
+
+---
+
+## Expected Values
+
+### `algeria.mbtiles` (OSM)
+
+| Property | Expected |
+|----------|----------|
+| File size | ~206 MB |
+| Tile count | ~173,000 |
+| Zoom levels | 0 – 14 |
+| Format | pbf (gzip compressed) |
+| Bounds | `2,18,9,37` |
+| Largest tile | ~150 KB |
+
+### `overture-algeria.mbtiles` (Overture POIs)
+
+| Property | Expected |
+|----------|----------|
+| File size | ~5 MB |
+| Tile count | ~8,300 |
+| Zoom levels | 12 – 14 |
+| Format | pbf |
+| Layer | `place` (43,390 POI features) |
+| Subclasses | 72 (restaurant, mosque, bank, hotel, …) |
+
+---
+
+## Recommended Workflow After Regenerating Tiles
+
+Run this after each Planetiler or tippecanoe run to confirm the output is valid:
+
+```powershell
+# 1. Visual check
+npm run verify:tiles:visual
+
+# 2. If all good, restart TileServer
+docker compose restart tileserver
+
+# 3. Confirm it's serving
+npm run health
+```
+
+---
+
+## Troubleshooting
+
+### Tile count is 0
+Planetiler/tippecanoe did not write any tiles. Re-run tile generation:
+```powershell
+npm run process-tiles   # OSM
+# or re-run tippecanoe for Overture
+```
+
+### Integrity check fails
+The file is corrupted — regenerate it. Do not use a corrupted MBTiles file in production.
+
+### Zoom levels missing
+Check your Planetiler config (`planetiler-config.json`) or tippecanoe `--minimum-zoom` / `--maximum-zoom` flags.
+
+### sqlite3 not found
+See Prerequisites above. The Android SDK ships sqlite3 — if Android tools are on your PATH you already have it.
+
+---
+
+## Visual Inspection with DB Browser for SQLite
+
+For a GUI alternative, install DB Browser for SQLite:
+
+```powershell
+choco install db-browser-for-sqlite
+```
+
+Then open any `.mbtiles` file directly — it's a standard SQLite database. Use the **Browse Data** tab to explore the `tiles` and `metadata` tables, and the **SQL Editor** tab to run any query from the Manual Queries section above.

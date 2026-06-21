@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MBTiles Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 24px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  h1 {
+    color: white;
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: 8px;
+    text-shadow: 1px 2px 4px rgba(0,0,0,0.3);
+  }
+  .subtitle {
+    color: rgba(255,255,255,0.75);
+    text-align: center;
+    font-size: 0.85em;
+    margin-bottom: 28px;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .summary-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .summary-value { font-size: 2em; font-weight: 700; color: #667eea; }
+  .summary-label { color: #666; font-size: 0.85em; margin-top: 4px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+  .card {
+    background: white;
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+  .card h2 { color: #667eea; margin-bottom: 16px; font-size: 1.2em; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+  .metric { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; margin: 6px 0; background: #f8f8f8; border-radius: 6px; }
+  .metric-label { color: #444; font-size: 0.9em; }
+  .metric-value { font-weight: 600; color: #333; }
+  .pass { color: #10b981; font-weight: 700; }
+  .fail { color: #ef4444; font-weight: 700; }
+  .chart-container { position: relative; height: 260px; margin-top: 18px; }
+  .meta-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.82em; }
+  .meta-table td { padding: 5px 8px; border-bottom: 1px solid #f0f0f0; }
+  .meta-table td:first-child { color: #888; width: 40%; }
+  .meta-table td:last-child { color: #333; word-break: break-all; }
+  .full-card { margin-bottom: 20px; }
+  @media (max-width: 768px) {
+    .grid, .summary-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>MBTiles Dashboard</h1>
+  <p class="subtitle">Generated: 2026-06-20 19:27:38 &nbsp;|&nbsp; Project: C:\ProjectsRepo\planetiler-config-repo</p>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="summary-value">173409</div>
+      <div class="summary-label">OSM Tiles</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-value">206.29 MB</div>
+      <div class="summary-label">OSM File Size</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-value">8332</div>
+      <div class="summary-label">Overture Tiles</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-value">5.07 MB</div>
+      <div class="summary-label">Overture File Size</div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>OSM &mdash; algeria.mbtiles</h2>
+      <div class="metric"><span class="metric-label">Integrity</span><span class="metric-value"><span class="pass">OK</span></span></div>
+      <div class="metric"><span class="metric-label">Total Tiles</span><span class="metric-value">173409</span></div>
+      <div class="metric"><span class="metric-label">File Size</span><span class="metric-value">206.29 MB</span></div>
+      <div class="metric"><span class="metric-label">Zoom Levels</span><span class="metric-value">0,1,2,3,4,5,6,7,8,9,10,11,12,13,14</span></div>
+      <div class="chart-container">
+        <canvas id="osmChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Overture &mdash; overture-algeria.mbtiles</h2>
+      <div class="metric"><span class="metric-label">Integrity</span><span class="metric-value"><span class="pass">OK</span></span></div>
+      <div class="metric"><span class="metric-label">Total Tiles</span><span class="metric-value">8332</span></div>
+      <div class="metric"><span class="metric-label">File Size</span><span class="metric-value">5.07 MB</span></div>
+      <div class="metric"><span class="metric-label">Zoom Levels</span><span class="metric-value">12,13,14</span></div>
+      <div class="chart-container">
+        <canvas id="overtureChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <div class="card full-card">
+      <h2>OSM Metadata</h2>
+      <table class="meta-table"><tr><td>attribution</td><td><a href="https://www.openmaptiles.org/" target="_blank">&copy; OpenMapTiles</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a></td></tr>
+<tr><td>bounds</td><td>2,18,9,37</td></tr>
+<tr><td>center</td><td>5.5,27.5,5</td></tr>
+<tr><td>compression</td><td>gzip</td></tr>
+<tr><td>description</td><td>A tileset showcasing all layers in OpenMapTiles. https://openmaptiles.org</td></tr>
+<tr><td>format</td><td>pbf</td></tr>
+<tr><td>maxzoom</td><td>14</td></tr>
+<tr><td>minzoom</td><td>0</td></tr>
+<tr><td>name</td><td>OpenMapTiles</td></tr>
+<tr><td>type</td><td>baselayer</td></tr>
+<tr><td>version</td><td>3.16.0</td></tr></table>
+    </div>
+    <div class="card full-card">
+      <h2>Overture Metadata</h2>
+      <table class="meta-table"><tr><td>bounds</td><td>2.000684,18.008876,8.992947,36.999680</td></tr>
+<tr><td>center</td><td>3.043213,36.765291,14</td></tr>
+<tr><td>description</td><td>/data/overture-algeria.mbtiles</td></tr>
+<tr><td>format</td><td>pbf</td></tr>
+<tr><td>maxzoom</td><td>14</td></tr>
+<tr><td>minzoom</td><td>12</td></tr>
+<tr><td>name</td><td>/data/overture-algeria.mbtiles</td></tr>
+<tr><td>type</td><td>overlay</td></tr>
+<tr><td>version</td><td>2</td></tr></table>
+    </div>
+  </div>
+</div>
+
+<script>
+  new Chart(document.getElementById('osmChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['z0','z1','z2','z3','z4','z5','z6','z7','z8','z9','z10','z11','z12','z13','z14'],
+      datasets: [{ label: 'Tiles', data: [1,1,1,1,2,3,10,36,95,320,1087,3526,11900,37521,118905], backgroundColor: '#667eea', borderRadius: 4 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { maxTicksLimit: 6 } } }
+    }
+  });
+
+  new Chart(document.getElementById('overtureChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['z12','z13','z14'],
+      datasets: [{ label: 'Tiles', data: [1752,2640,3940], backgroundColor: '#764ba2', borderRadius: 4 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { maxTicksLimit: 6 } } }
+    }
+  });
+</script>
+</body>
+</html>

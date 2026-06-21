@@ -113,6 +113,12 @@ docker-compose up
 bash scripts/verify-setup.sh
 ```
 
+### "Verify MBTiles after regeneration"
+```powershell
+npm run verify:tiles:visual
+```
+→ See: [docs/MBTILES_INSPECTION.md](./docs/MBTILES_INSPECTION.md)
+
 ### "Download fonts for better text"
 ```bash
 bash scripts/download-fonts.sh
@@ -131,6 +137,7 @@ bash scripts/download-fonts.sh
 | docs/OVERTURE_INTEGRATION.md | Overture Maps POI enrichment (43,390 POIs) | Adding/refreshing commercial POIs |
 | docs/OSM_POI_FIXES.md | OSM style filter corrections (+561 unlocked POIs) | Understanding OMT subclass quirks |
 | docs/ICON_REFERENCE.md | Sprite icon catalogue | Customizing POI icons |
+| docs/MBTILES_INSPECTION.md | MBTiles verification scripts and SQLite queries | Checking tile data after generation |
 | docs/TROUBLESHOOTING.md | Common issues & fixes | Something broke |
 
 ## 🛠️ Available npm Scripts
@@ -146,8 +153,12 @@ npm run docker-up     # Start Docker containers
 npm run docker-down   # Stop Docker containers
 npm run docker-logs   # View Docker logs
 npm run docker-clean  # Clean Docker resources
-npm run setup         # Download data + next steps
-npm run health        # Check if server running
+npm run setup              # Download data + next steps
+npm run verify             # Check prerequisites (bash)
+npm run verify:tiles       # Verify MBTiles integrity (plain output)
+npm run verify:tiles:visual     # Verify MBTiles with visual dashboard (terminal)
+npm run verify:tiles:dashboard  # Generate HTML dashboard with charts (opens browser)
+npm run health             # Check if server running
 ```
 
 ## 🚀 Quick Reference
