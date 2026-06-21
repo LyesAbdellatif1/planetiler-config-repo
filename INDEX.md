@@ -138,6 +138,7 @@ bash scripts/download-fonts.sh
 | docs/OSM_POI_FIXES.md | OSM style filter corrections (+561 unlocked POIs) | Understanding OMT subclass quirks |
 | docs/ICON_REFERENCE.md | Sprite icon catalogue | Customizing POI icons |
 | docs/MBTILES_INSPECTION.md | MBTiles verification scripts and SQLite queries | Checking tile data after generation |
+| docs/POI_MANAGEMENT.md | Custom POI import pipeline (CSV → GeoJSON → MBTiles) | Adding/managing operator-provided POIs |
 | docs/TROUBLESHOOTING.md | Common issues & fixes | Something broke |
 
 ## 🛠️ Available npm Scripts
@@ -158,6 +159,9 @@ npm run verify             # Check prerequisites (bash)
 npm run verify:tiles       # Verify MBTiles integrity (plain output)
 npm run verify:tiles:visual     # Verify MBTiles with visual dashboard (terminal)
 npm run verify:tiles:dashboard  # Generate HTML dashboard with charts (opens browser)
+npm run add:poi                 # Interactive: add a single custom POI
+npm run import:pois -- --csv f  # Bulk-import custom POIs from CSV
+npm run retile:custom           # Re-tile custom POIs and restart TileServer
 npm run health             # Check if server running
 ```
 

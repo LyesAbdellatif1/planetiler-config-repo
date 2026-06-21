@@ -21,6 +21,9 @@
     "verify:tiles": "powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles.ps1",
     "verify:tiles:visual": "powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles-visual.ps1",
     "verify:tiles:dashboard": "powershell -ExecutionPolicy Bypass -File scripts/verify-mbtiles-dashboard.ps1",
+    "import:pois": "powershell -ExecutionPolicy Bypass -File scripts/import-pois.ps1",
+    "retile:custom": "powershell -ExecutionPolicy Bypass -File scripts/retile-custom.ps1",
+    "add:poi": "powershell -ExecutionPolicy Bypass -File scripts/add-poi.ps1",
     "health": "curl -s http://localhost:8080/data | jq . || echo 'TileServer not running'"
   },
   "keywords": [

@@ -19,6 +19,9 @@
     },
     "overture": {
       "mbtiles": "overture-algeria.mbtiles"
+    },
+    "custom": {
+      "mbtiles": "custom-algeria.mbtiles"
     }
   }
 }

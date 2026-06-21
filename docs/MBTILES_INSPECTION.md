@@ -257,10 +257,48 @@ See Prerequisites above. The Android SDK ships sqlite3 — if Android tools are 
 
 ## Visual Inspection with DB Browser for SQLite
 
-For a GUI alternative, install DB Browser for SQLite:
+A GUI alternative to the CLI scripts. Good for ad-hoc exploration when you want to click through data instead of writing queries.
 
-```powershell
-choco install db-browser-for-sqlite
-```
+### Installation
 
-Then open any `.mbtiles` file directly — it's a standard SQLite database. Use the **Browse Data** tab to explore the `tiles` and `metadata` tables, and the **SQL Editor** tab to run any query from the Manual Queries section above.
+1. Download from [sqlitebrowser.org/dl](https://sqlitebrowser.org/dl/) — grab the **win64 .msi** file
+2. Run the installer (takes ~2 minutes, no configuration needed)
+3. Find it in the Start menu as **"DB Browser for SQLite"**
+
+### Opening an MBTiles File
+
+MBTiles files are standard SQLite databases, but DB Browser hides them by default because of the `.mbtiles` extension. To open one:
+
+1. **File → Open Database**
+2. Navigate to `C:\ProjectsRepo\planetiler-config-repo\data\`
+3. Click the **file type dropdown** at the bottom of the dialog (shows "SQLite Database Files")
+4. Switch it to **All files (*.*)**
+5. Select your file (`algeria.mbtiles`, `overture-algeria.mbtiles`, or `custom-algeria.mbtiles`) and click **Open**
+
+### Interface Overview
+
+| Tab | Use |
+|-----|-----|
+| **Database Structure** | See the table list (`tiles`, `metadata`) |
+| **Browse Data** | Select a table and scroll through rows visually |
+| **Execute SQL** | Paste and run queries — press **F5** to execute |
+
+### Step-by-Step: Checking a File
+
+1. Open the file (see above)
+2. **Browse Data** → **metadata** table → read zoom levels, bounds, attribution
+3. **Browse Data** → **tiles** table → row count at the bottom = total tiles
+4. **Execute SQL** tab → paste any query from the Manual SQLite Queries section above → press **F5**
+
+### Editing Metadata
+
+1. **Browse Data** → **metadata** table
+2. Click on a value cell to edit it inline
+3. Press **Enter** to confirm the cell
+4. Click the **Write Changes** button (floppy disk icon in the toolbar) to save to disk
+
+This is useful for fixing the `name`, `attribution`, or `description` metadata fields after generation.
+
+### What You Cannot Do in DB Browser
+
+The `tile_data` column contains gzip-compressed binary PBF data — not human-readable. You cannot view or edit the actual map features (POIs, roads, etc.) through DB Browser. To change POI data, edit the source GeoJSON and re-tile. See [POI_MANAGEMENT.md](./POI_MANAGEMENT.md).
