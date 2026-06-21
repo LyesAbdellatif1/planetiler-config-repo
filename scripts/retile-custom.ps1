@@ -46,13 +46,15 @@ if (Test-Path $MBTILES) {
     Write-Host "Backup: $bak" -ForegroundColor Gray
 }
 
-# Convert Windows path to Docker-compatible path
-$dataDir = "$ROOT\data" -replace "\\", "/" -replace "^([A-Z]):", { "/$($_.Value[0].ToString().ToLower())" }
+# Convert Windows path to Docker-compatible path (PS 5.1 compatible)
+$dataPath = "$ROOT\data"
+$driveLetter = $dataPath[0].ToString().ToLower()
+$dataDir = $driveLetter + ":" + ($dataPath.Substring(2) -replace "\\", "/")
 
 Write-Host "Running tippecanoe ..." -ForegroundColor Cyan
 docker run --rm `
     -v "${dataDir}:/data" `
-    ghcr.io/felt/tippecanoe tippecanoe `
+    klokantech/tippecanoe tippecanoe `
     --output=/data/custom-algeria.mbtiles `
     --force `
     --minimum-zoom=12 `

@@ -26,8 +26,9 @@ if (-not $pyArgs -or $pyArgs -notmatch "--csv") {
     exit 0
 }
 
-# Resolve Windows project root to Docker path
-$dockerRoot = $ROOT -replace "\\", "/" -replace "^([A-Z]):", { "/$($_.Value[0].ToString().ToLower())" }
+# Resolve Windows project root to Docker path (PS 5.1 compatible)
+$driveLetter = $ROOT[0].ToString().ToLower()
+$dockerRoot = $driveLetter + ":" + ($ROOT.Substring(2) -replace "\\", "/")
 
 Write-Host "Running bulk-import-pois.py via Docker ..." -ForegroundColor Cyan
 Write-Host "Args: $pyArgs" -ForegroundColor Gray

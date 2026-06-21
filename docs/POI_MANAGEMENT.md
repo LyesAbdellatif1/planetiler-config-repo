@@ -20,6 +20,17 @@ Custom POIs are styled with `cu_*` layers in `osm-liberty-style.json` and render
 
 ## Quick Start
 
+### Try it immediately with the example file
+
+An example CSV with 50 real Algerian POIs is included at `data/example-pois.csv`. Run it to test the full pipeline:
+
+```powershell
+npm run import:pois -- --csv data/example-pois.csv
+npm run retile:custom
+```
+
+Then open `http://localhost:8080` — you should see bus stations, hospitals, mosques, hotels and more across Algiers, Oran and Constantine.
+
 ### Add a single POI interactively
 
 ```powershell
@@ -63,12 +74,15 @@ name,lat,lon,subclass[,confidence,notes]
 
 ### Example CSV
 
+A ready-to-use example is included at `data/example-pois.csv` — 50 real Algerian locations covering all transport-priority subclasses across Algiers, Oran and Constantine. Use it as a template for your own data.
+
+Minimal example:
 ```csv
 name,lat,lon,subclass,confidence,notes
-Gare Routiere Alger,36.7367,3.0869,bus_station,1.0,Main intercity bus terminal
-Aeroport Houari Boumediene,36.6960,3.2152,aerodrome,1.0,International
-Hopital Mustapha Pacha,36.7444,3.0650,hospital,1.0,Public hospital
-Station Essence Total El Harrach,36.7220,3.1030,fuel,1.0
+Gare Routière Caroubier,36.7367,3.0869,bus_station,1.0,Main intercity bus terminal
+Aéroport Houari Boumédiène,36.6960,3.2152,aerodrome,1.0,International airport
+CHU Mustapha Pacha,36.7444,3.0650,hospital,1.0,Public hospital
+Station Total El Harrach,36.7220,3.1030,fuel,1.0,
 ```
 
 ---
