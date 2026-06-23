@@ -46,8 +46,11 @@ docker run --rm `
     --output=/data/transit-algeria.mbtiles `
     --force `
     --minimum-zoom=10 `
-    --maximum-zoom=14 `
-    --drop-densest-as-needed `
+    --maximum-zoom=16 `
+    --no-line-simplification `
+    --no-tile-size-limit `
+    --no-feature-limit `
+    --buffer=64 `
     --name="Algeria Transit" `
     --attribution="(c) OpenStreetMap contributors" `
     --named-layer=transit:/data/transit-stations.geojson `

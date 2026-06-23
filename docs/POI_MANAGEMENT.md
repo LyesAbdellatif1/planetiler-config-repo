@@ -363,7 +363,7 @@ Overpass API ──fetch:transit──▶ data/transit-stations.geojson ──re
 ```
 
 - `scripts/fetch-transit-stations.py` queries Overpass for every Algeria `railway=tram_stop`, `station=subway`, `amenity=bus_station`, `highway=bus_stop` and `aerialway=station` (téléphérique / cable car) node — plus aerialway station **ways** (via `out center`). All cities: Algiers metro + Algiers/Oran/Constantine/Sidi Bel Abbès/Ouargla/Sétif/Mostaganem trams, bus terminals and stops nationwide, and téléphériques (Algiers, Blida, Chréa, Oran, Tlemcen, Annaba, Constantine, Tizi Ouzou…). Each becomes a GeoJSON point with `mode` (`metro` / `tram` / `bus_station` / `bus` / `aerialway`), `name`, `name_fr`, `name_ar`. Output: `data/transit-stations.geojson`.
-- The same script **also fetches the route LINE geometry** (`railway=subway|tram|light_rail` track ways + `aerialway` cables, via `out geom`) into `data/transit-lines.geojson` with `mode` `metro` / `tram` / `aerialway`. This is needed because the base OpenMapTiles tiles don't emit tram lines at all and only carry subway/aerialway lines from ~z14. The `tr_*` station points and the `trl_*` route lines are tiled together by `retile-transit.ps1` into one `transit-algeria.mbtiles` with **two layers**: `transit` (points) and `transitlines` (lines).
+- The same script **also fetches the route LINE geometry** (`railway=subway|tram|light_rail` track ways + `aerialway` cables, via `out geom`) into `data/transit-lines.geojson` with `mode` `metro` / `tram` / `aerialway`. This is needed because the base OpenMapTiles tiles don't emit tram lines at all and only carry subway/aerialway lines from ~z14. The `tr_*` station points and the `trl_*` route lines are tiled together by `retile-transit.ps1` into one `transit-algeria.mbtiles` with **two layers**: `transit` (points) and `transitlines` (lines). The tileset is built to **maxzoom 16** (overzoom keeps the lines visible at z17–20, so transit lines display continuously at every zoom ≥ 11). It is tiled with `--no-line-simplification`, `--no-tile-size-limit`, `--no-feature-limit` and `--buffer=64` so line geometry is never thinned or dropped and segments overlap across tile seams — keeping metro/tram/aerialway lines whole and continuous (no gaps or "cut" segments) at fractional zooms.
 - The `trl_metro` / `trl_tram` / `trl_aerialway` line layers (source-layer `transitlines`) **replace** the base `transit_subway` / `transit_tram` / `transit_aerialway` line layers and render from **z11**, so the coloured metro/tram/téléphérique lines appear together with the station icons. (`transit_railway` mainline and `transit_light_rail` base layers are kept.)
 - The `tr_metro` / `tr_tram` / `tr_bus_station` / `tr_bus_stop` / `tr_aerialway` style layers **replace** the old base `poi_metro_station` / `poi_tram_stop` / `poi_bus_station` / `poi_bus_stop` / `poi_aerialway_station` layers, so there are no duplicate icons. Labels coalesce **Latin-first**: `name_fr` → `name` → `name_ar` → generic fallback (prefers readable French/Latin, falls back to Arabic, then a generic label).
 - Metro, tram & aerialway labels are forced (`text-allow-overlap`) so every station icon always carries a name. Bus stations and bus stops use collision binding (icon + label drop together) so dense areas declutter and you never get a naked icon.
@@ -380,6 +380,34 @@ npm run retile:transit    # rebuilds transit-algeria.mbtiles and restarts TileSe
 ```
 
 Do **not** hand-edit `data/transit-stations.geojson` — it is regenerated wholesale on each fetch. To correct or add a station, fix it in OpenStreetMap (it'll appear on the next `fetch:transit`), or add it as a one-off via the `custom` pipeline above.
+
+### Known limitation: a tram/metro line segment can be missing
+
+A **part** of a line (not the whole line) may not render where the underlying OSM track is
+incomplete — a gap in the OSM `railway=tram|subway` ways, a stretch tagged differently
+(e.g. `construction`, `disused`, or under a different `railway=*` value), or simply not yet mapped.
+The line is drawn straight from OSM geometry, so a missing/mis-tagged OSM segment shows up as a gap.
+
+Reported example: the Algiers tram around **Les Pins / Tamaris / Cité Claire Martin**
+(≈ `36.732, 3.190`, z13–14) — a segment there is absent while the rest of the line renders.
+
+This is a **data gap in OSM**, not a tiling/style bug (the build already keeps full geometry with
+`--no-line-simplification` + `--buffer=64`). To confirm and fix:
+
+1. Check whether the segment exists in the fetched geometry:
+   ```powershell
+   # any tram line vertices near the spot?  (lon≈3.190, lat≈36.732)
+   Get-Content data/transit-lines.geojson -Raw | ConvertFrom-Json |
+     Select-Object -ExpandProperty features |
+     Where-Object { $_.properties.mode -eq 'tram' }
+   ```
+   If no way covers that stretch, OSM is missing it.
+2. Or decode the tile to see the line features present:
+   `docker run --rm -v "<repo>/data:/data" klokantech/tippecanoe tippecanoe-decode /data/transit-algeria.mbtiles 14 <x> <y>`
+3. Fix it upstream by mapping/retagging the track in OpenStreetMap as `railway=tram` (or `subway`);
+   the next `npm run fetch:transit` + `npm run retile:transit` will include it. For a local-only
+   patch, add the segment as a `LineString` with `"mode":"tram"` to a supplementary GeoJSON tiled
+   into the `transitlines` layer.
 
 ---
 
