@@ -404,12 +404,12 @@
     },
 
     {
-      "id": "transit_tram_casing",
+      "id": "trl_tram_casing",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
+      "source": "transit",
+      "source-layer": "transitlines",
       "minzoom": 11,
-      "filter": ["all", ["in", "class", "rail", "transit"], ["==", "subclass", "tram"]],
+      "filter": ["==", "mode", "tram"],
       "layout": { "line-cap": "round", "line-join": "round" },
       "paint": {
         "line-color": "#ffffff",
@@ -418,12 +418,12 @@
     },
 
     {
-      "id": "transit_tram",
+      "id": "trl_tram",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
+      "source": "transit",
+      "source-layer": "transitlines",
       "minzoom": 11,
-      "filter": ["all", ["in", "class", "rail", "transit"], ["==", "subclass", "tram"]],
+      "filter": ["==", "mode", "tram"],
       "layout": { "line-cap": "round", "line-join": "round" },
       "paint": {
         "line-color": "#00933b",
@@ -432,40 +432,40 @@
     },
 
     {
-      "id": "transit_subway_casing",
+      "id": "trl_metro_casing",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 10,
-      "filter": ["all", ["in", "class", "rail", "transit"], ["==", "subclass", "subway"]],
+      "source": "transit",
+      "source-layer": "transitlines",
+      "minzoom": 11,
+      "filter": ["==", "mode", "metro"],
       "layout": { "line-cap": "round", "line-join": "round" },
       "paint": {
         "line-color": "#ffffff",
-        "line-width": { "base": 1.3, "stops": [[10, 4], [11, 5], [12, 7], [13, 9], [14, 12]] }
+        "line-width": { "base": 1.3, "stops": [[11, 5], [12, 7], [13, 9], [14, 12]] }
       }
     },
 
     {
-      "id": "transit_subway",
+      "id": "trl_metro",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
-      "minzoom": 10,
-      "filter": ["all", ["in", "class", "rail", "transit"], ["==", "subclass", "subway"]],
+      "source": "transit",
+      "source-layer": "transitlines",
+      "minzoom": 11,
+      "filter": ["==", "mode", "metro"],
       "layout": { "line-cap": "round", "line-join": "round" },
       "paint": {
         "line-color": "#0055b3",
-        "line-width": { "base": 1.3, "stops": [[10, 2], [11, 3], [12, 5], [13, 7], [14, 9]] }
+        "line-width": { "base": 1.3, "stops": [[11, 3], [12, 5], [13, 7], [14, 9]] }
       }
     },
 
     {
-      "id": "transit_aerialway",
+      "id": "trl_aerialway",
       "type": "line",
-      "source": "openmaptiles",
-      "source-layer": "transportation",
+      "source": "transit",
+      "source-layer": "transitlines",
       "minzoom": 11,
-      "filter": ["any", ["==", "class", "aerialway"], ["==", "class", "gondola"], ["in", "subclass", "gondola", "cable_car", "aerialway"]],
+      "filter": ["==", "mode", "aerialway"],
       "layout": { "line-cap": "round", "line-join": "round" },
       "paint": {
         "line-color": "#7b2d8b",

@@ -25,13 +25,14 @@ from datetime import datetime
 # Project root = parent of this script's directory
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "data", "transit-stations.geojson")
+OUT_LINES = os.path.join(ROOT, "data", "transit-lines.geojson")
 
 OVERPASS_ENDPOINTS = [
     "https://overpass-api.de/api/interpreter",
     "https://overpass.kumi.systems/api/interpreter",
 ]
 
-# Pulls every Algeria metro (subway), tram, bus-station and bus-stop node.
+# Station POINTS: every Algeria metro (subway), tram, bus-station, bus-stop and aerialway station.
 OVERPASS_QUERY = """
 [out:json][timeout:120];
 area["ISO3166-1"="DZ"]->.a;
@@ -47,10 +48,21 @@ area["ISO3166-1"="DZ"]->.a;
 out center;
 """
 
+# Route LINES: metro/tram/light-rail track ways + aerialway cables (out geom for coordinates).
+OVERPASS_LINES_QUERY = """
+[out:json][timeout:120];
+area["ISO3166-1"="DZ"]->.a;
+(
+  way["railway"~"^(subway|tram|light_rail)$"](area.a);
+  way["aerialway"][aerialway!~"^(station|pylon)$"](area.a);
+);
+out geom;
+"""
 
-def fetch_overpass():
-    """POST the query to Overpass, trying each endpoint until one succeeds."""
-    data = urllib.parse.urlencode({"data": OVERPASS_QUERY}).encode("utf-8")
+
+def fetch_overpass(query):
+    """POST a query to Overpass, trying each endpoint until one succeeds."""
+    data = urllib.parse.urlencode({"data": query}).encode("utf-8")
     last_err = None
     for url in OVERPASS_ENDPOINTS:
         try:
@@ -58,7 +70,7 @@ def fetch_overpass():
             req = urllib.request.Request(
                 url, data=data, headers={"User-Agent": "algeria-transit-map/1.0"}
             )
-            with urllib.request.urlopen(req, timeout=120) as resp:
+            with urllib.request.urlopen(req, timeout=180) as resp:
                 return json.loads(resp.read().decode("utf-8"))
         except (urllib.error.URLError, urllib.error.HTTPError, TimeoutError) as e:
             print(f"  endpoint failed: {e}", flush=True)
@@ -117,15 +129,59 @@ def to_feature(el):
     }
 
 
-def main():
-    result = fetch_overpass()
-    elements = result.get("elements", [])
+def classify_line(tags):
+    """Map an OSM way's tags to a transit line mode, or None if not a transit line."""
+    rail = tags.get("railway")
+    if rail == "subway":
+        return "metro"
+    if rail in ("tram", "light_rail"):
+        return "tram"
+    if tags.get("aerialway"):
+        return "aerialway"
+    return None
 
-    features = []
-    for el in elements:
-        f = to_feature(el)
-        if f is not None:
-            features.append(f)
+
+def to_line_feature(el):
+    """Convert one Overpass way (with `out geom`) into a GeoJSON LineString, or None."""
+    if el.get("type") != "way":
+        return None
+    geom = el.get("geometry") or []
+    coords = [[p["lon"], p["lat"]] for p in geom if "lon" in p and "lat" in p]
+    if len(coords) < 2:
+        return None
+
+    mode = classify_line(el.get("tags", {}))
+    if mode is None:
+        return None
+
+    return {
+        "type": "Feature",
+        "geometry": {"type": "LineString", "coordinates": coords},
+        "properties": {"mode": mode, "source": "osm-transit", "osm_id": el.get("id")},
+    }
+
+
+def write_geojson(path, features):
+    """Backup any existing file, then write a FeatureCollection."""
+    if os.path.exists(path):
+        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
+        bak = f"{path}.bak-{ts}"
+        shutil.copy2(path, bak)
+        print(f"Backup: {bak}")
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, "w", encoding="utf-8") as fh:
+        json.dump({"type": "FeatureCollection", "features": features}, fh,
+                  ensure_ascii=False, indent=1)
+
+
+def main():
+    # --- Station points ---
+    elements = fetch_overpass(OVERPASS_QUERY).get("elements", [])
+    features = [f for f in (to_feature(el) for el in elements) if f is not None]
+
+    if not features:
+        print("ERROR: Overpass returned 0 stations. Aborting (output not written).")
+        sys.exit(1)
 
     def count(mode):
         return sum(1 for f in features if f["properties"]["mode"] == mode)
@@ -138,22 +194,7 @@ def main():
         if any(k in f["properties"] for k in ("name", "name_fr", "name_ar"))
     )
 
-    if n_total == 0:
-        print("ERROR: Overpass returned 0 stations. Aborting (output not written).")
-        sys.exit(1)
-
-    # Backup an existing output before overwriting.
-    if os.path.exists(OUT):
-        ts = datetime.now().strftime("%Y%m%d-%H%M%S")
-        bak = f"{OUT}.bak-{ts}"
-        shutil.copy2(OUT, bak)
-        print(f"Backup: {bak}")
-
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    fc = {"type": "FeatureCollection", "features": features}
-    with open(OUT, "w", encoding="utf-8") as fh:
-        json.dump(fc, fh, ensure_ascii=False, indent=1)
-
+    write_geojson(OUT, features)
     print(f"Wrote {OUT}")
     print(
         f"  total: {n_total}  (metro: {by_mode['metro']}, tram: {by_mode['tram']}, "
@@ -161,6 +202,20 @@ def main():
         f"aerialway: {by_mode['aerialway']})"
     )
     print(f"  with a name:    {n_named}  (unnamed: {n_total - n_named})")
+
+    # --- Route lines ---
+    line_elements = fetch_overpass(OVERPASS_LINES_QUERY).get("elements", [])
+    lines = [f for f in (to_line_feature(el) for el in line_elements) if f is not None]
+
+    def lcount(mode):
+        return sum(1 for f in lines if f["properties"]["mode"] == mode)
+
+    write_geojson(OUT_LINES, lines)
+    print(f"Wrote {OUT_LINES}")
+    print(
+        f"  line ways: {len(lines)}  (metro: {lcount('metro')}, tram: {lcount('tram')}, "
+        f"aerialway: {lcount('aerialway')})"
+    )
     print("Next: npm run retile:transit")
 
 
