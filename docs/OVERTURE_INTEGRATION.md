@@ -30,10 +30,10 @@ New-Item -ItemType Directory -Force ".\data\overture"
 docker run --rm `
   -v "c:/ProjectsRepo/planetiler-config-repo/data/overture:/data" `
   python:3.11-slim `
-  sh -c "pip install -q overturemaps && overturemaps download --bbox='2.0,18.0,9.0,37.0' --type=place -f geojson -o /data/algeria-overture.geojson"
+  sh -c "pip install -q overturemaps && overturemaps download --bbox='-9.5,18.5,9.5,37.5' --type=place -f geojson -o /data/algeria-overture.geojson"
 ```
 
-**Output:** `data/overture/algeria-overture.geojson` (~91 MB, 81,673 features)
+**Output:** `data/overture/algeria-overture.geojson` (~574 MB, full Algeria including west and south)
 
 ---
 
@@ -55,15 +55,13 @@ docker run --rm `
 
 **Script:** `scripts/flatten-overture.py`
 
-**Output:** `data/overture/algeria-overture-flat.geojson` (~9 MB, 43,390 features)
+**Output:** `data/overture/algeria-overture-flat.geojson` (~65 MB, 302,996 features)
 
 Results after filtering:
 
 | Kept | Skipped (geographic) | Skipped (low confidence) | Skipped (unmapped) |
 |---|---|---|---|
-| 43,390 | 25,568 | 10,256 | 2,459 |
-
-> **Note:** The unmapped count dropped from 4,979 to 2,459 after a second-pass audit (see [Audit and Extended Mappings](#audit-and-extended-mappings) below).
+| 302,996 | 142,266 | 31,939 | 33,841 |
 
 Top subclasses in output:
 
@@ -111,7 +109,7 @@ docker run --rm `
     /data/overture/algeria-overture-flat.geojson
 ```
 
-**Output:** `data/overture-algeria.mbtiles` (4.9 MB)
+**Output:** `data/overture-algeria.mbtiles` (~26 MB)
 
 ---
 
@@ -217,7 +215,7 @@ Overture releases new data approximately every 2 months. To update:
 docker run --rm `
   -v "c:/ProjectsRepo/planetiler-config-repo/data/overture:/data" `
   python:3.11-slim `
-  sh -c "pip install -q overturemaps && overturemaps download --bbox='2.0,18.0,9.0,37.0' --type=place -f geojson -o /data/algeria-overture.geojson"
+  sh -c "pip install -q overturemaps && overturemaps download --bbox='-9.5,18.5,9.5,37.5' --type=place -f geojson -o /data/algeria-overture.geojson"
 
 # Re-flatten
 docker run --rm `
@@ -245,9 +243,9 @@ docker compose restart tileserver
 
 | File | Size | Description |
 |---|---|---|
-| `data/overture/algeria-overture.geojson` | 91 MB | Raw download from Overture S3 |
-| `data/overture/algeria-overture-flat.geojson` | 9 MB | Filtered and flattened |
-| `data/overture-algeria.mbtiles` | 4.9 MB | Final vector tiles |
+| `data/overture/algeria-overture.geojson` | ~574 MB | Raw download from Overture S3 (full Algeria) |
+| `data/overture/algeria-overture-flat.geojson` | ~65 MB | Filtered and flattened |
+| `data/overture-algeria.mbtiles` | ~26 MB | Final vector tiles |
 
 These files are excluded from git (see `.gitignore`).
 

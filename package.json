@@ -24,6 +24,9 @@
     "import:pois": "powershell -ExecutionPolicy Bypass -File scripts/import-pois.ps1",
     "retile:custom": "powershell -ExecutionPolicy Bypass -File scripts/retile-custom.ps1",
     "add:poi": "powershell -ExecutionPolicy Bypass -File scripts/add-poi.ps1",
+    "fonts:arabic": "powershell -ExecutionPolicy Bypass -File scripts/generate-arabic-font.ps1",
+    "fetch:transit": "powershell -ExecutionPolicy Bypass -File scripts/fetch-transit-stations.ps1",
+    "retile:transit": "powershell -ExecutionPolicy Bypass -File scripts/retile-transit.ps1",
     "health": "curl -s http://localhost:8080/data | jq . || echo 'TileServer not running'"
   },
   "keywords": [

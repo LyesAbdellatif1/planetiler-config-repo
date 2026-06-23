@@ -160,7 +160,8 @@ export default function AlgeriaMap() {
 
 ```bash
 npm run download      # Download Algerian OSM data
-npm run fonts        # Download OpenMapTiles fonts
+npm run fonts        # Download OpenMapTiles fonts (Latin)
+npm run fonts:arabic # Generate Noto Sans Arabic glyphs (required for Arabic labels)
 npm run sprites      # Download sprites and Maki icons (600+ icons)
 npm run tileserver   # Start TileServer GL
 npm run setup        # Complete setup (download data + sprites)
@@ -168,14 +169,27 @@ npm run verify       # Verify all components are installed
 npm run docker-build # Build Docker image
 npm run docker-up    # Start Docker containers
 npm run docker-down  # Stop Docker containers
+
+# POI & transit enrichment
+npm run import:pois -- --csv f  # Bulk-import custom operator POIs from CSV
+npm run retile:custom           # Re-tile custom POIs and restart TileServer
+npm run fetch:transit           # Pull metro/tram/bus station names from OSM (Overpass)
+npm run retile:transit          # Re-tile transit stations and restart TileServer
 ```
+
+> **POI sources:** the map composites four POI layers — base **OSM** (`algeria.mbtiles`),
+> **Overture** (`overture-algeria.mbtiles`), hand-curated **custom** (`custom-algeria.mbtiles`),
+> and OSM-sourced **transit** station names (`transit-algeria.mbtiles`). The transit layer
+> supplies real metro/tram/bus station names that were missing from the base tiles. See
+> [docs/POI_MANAGEMENT.md](./docs/POI_MANAGEMENT.md). Arabic station/place names require the
+> Arabic font — see [docs/FONTS.md](./docs/FONTS.md).
 
 ## 🗺️ Map Coverage
 
 **Geographic Area:** Algeria
-- **Coordinates:** 2.0°E - 9.0°E, 18.0°N - 37.0°N
+- **Coordinates:** −9.5°E – 9.5°E, 18.5°N – 37.5°N (full country incl. Oran, Tlemcen, Tindouf, Sahara)
 - **Zoom Levels:** 0 - 14
-- **Data Source:** OpenStreetMap via Geofabrik
+- **Data Source:** OpenStreetMap via Geofabrik (+ Overture Maps & OSM transit-station enrichment)
 
 **Major Cities Covered:**
 - Algiers (Alger)

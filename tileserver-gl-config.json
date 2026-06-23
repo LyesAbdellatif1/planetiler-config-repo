@@ -22,6 +22,9 @@
     },
     "custom": {
       "mbtiles": "custom-algeria.mbtiles"
+    },
+    "transit": {
+      "mbtiles": "transit-algeria.mbtiles"
     }
   }
 }

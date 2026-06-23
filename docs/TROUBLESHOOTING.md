@@ -283,6 +283,68 @@ Fonts endpoint returns 404 for all requests.
 
 ---
 
+### Error: Station/place labels render blank (icon shows, no text under it)
+
+**Symptom**
+
+Transit icons (metro, tram, bus) and some place markers appear, but many have **no name
+underneath** — even though the data clearly contains names. A subset (Latin names like
+"La Glacière", "1er Mai", "Place des Martyrs") show fine; Arabic-named ones are blank. Browser
+console may show glyph ranges 400-ing for the font stack.
+
+**Root cause**
+
+The labels resolve to **Arabic** text, but no font in the stack contains Arabic glyphs. The
+bundled Open Sans / Noto Sans have **no Arabic** — the Arabic glyph range comes back as an empty
+PBF (~30 bytes vs ~80 KB for Latin), so MapLibre draws nothing. This is **not** a cache or data
+problem.
+
+**Diagnose**
+
+```powershell
+# Latin range is large; Arabic range near-empty == no Arabic glyphs
+(Invoke-WebRequest "http://localhost:8080/fonts/Open Sans Bold/0-255.pbf").RawContentLength      # ~80000
+(Invoke-WebRequest "http://localhost:8080/fonts/Open Sans Bold/1536-1791.pbf").RawContentLength  # ~29  (empty!)
+```
+
+**Fix**
+
+1. Generate an Arabic font and restart:
+   ```powershell
+   npm run fonts:arabic
+   docker compose restart tileserver
+   ```
+2. Ensure each affected layer's `text-font` includes `Noto Sans Arabic`, e.g.
+   `["Open Sans Bold", "Noto Sans Arabic", "Arial Unicode MS Bold"]`.
+3. (Optional) Prefer Latin labels where available via the `text-field` coalesce order
+   `name_fr → name → name_ar → fallback`.
+
+Full details: [docs/FONTS.md → Arabic font](./FONTS.md#arabic-font-required-for-arabic-labels).
+
+---
+
+### Error: `Image "rail_11" could not be loaded`
+
+**Symptom**
+```
+Image "rail_11" could not be loaded. Please make sure you have added the image ... sprite
+```
+
+**Root cause**
+
+A style layer referenced a sprite icon name that does not exist. The OSM Liberty sprite has
+`railway_11`, `railway_metro_11`, `railway_light_11`, `bus`, `bus_11` — but **not** `rail_11`.
+The `cu_station` custom-POI layer used the wrong name.
+
+**Fix**
+
+Use an existing sprite name (check `data/sprites/osm-liberty.json`):
+```json
+"icon-image": "railway_11"
+```
+
+---
+
 ### Error: Font download URL 404
 
 **Symptom**
