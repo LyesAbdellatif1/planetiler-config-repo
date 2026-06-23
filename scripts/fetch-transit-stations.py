@@ -41,8 +41,10 @@ area["ISO3166-1"="DZ"]->.a;
   node["railway"="station"]["station"="subway"](area.a);
   node["amenity"="bus_station"](area.a);
   node["highway"="bus_stop"](area.a);
+  node["aerialway"="station"](area.a);
+  way["aerialway"="station"](area.a);
 );
-out body;
+out center;
 """
 
 
@@ -74,13 +76,25 @@ def classify(tags):
         return "bus_station"
     if tags.get("highway") == "bus_stop":
         return "bus"
+    if tags.get("aerialway") == "station":
+        return "aerialway"
     return None
 
 
 def to_feature(el):
-    """Convert one Overpass node into a GeoJSON Point feature, or None if not relevant."""
-    if el.get("type") != "node" or "lat" not in el or "lon" not in el:
+    """Convert one Overpass node/way into a GeoJSON Point feature, or None if not relevant."""
+    t = el.get("type")
+    if t == "node":
+        lon, lat = el.get("lon"), el.get("lat")
+    elif t == "way":
+        # ways (e.g. aerialway station buildings) carry geometry via `out center`
+        center = el.get("center") or {}
+        lon, lat = center.get("lon"), center.get("lat")
+    else:
         return None
+    if lon is None or lat is None:
+        return None
+
     tags = el.get("tags", {})
 
     mode = classify(tags)
@@ -98,7 +112,7 @@ def to_feature(el):
 
     return {
         "type": "Feature",
-        "geometry": {"type": "Point", "coordinates": [el["lon"], el["lat"]]},
+        "geometry": {"type": "Point", "coordinates": [lon, lat]},
         "properties": props,
     }
 
@@ -117,7 +131,7 @@ def main():
         return sum(1 for f in features if f["properties"]["mode"] == mode)
 
     n_total = len(features)
-    by_mode = {m: count(m) for m in ("metro", "tram", "bus_station", "bus")}
+    by_mode = {m: count(m) for m in ("metro", "tram", "bus_station", "bus", "aerialway")}
     n_named = sum(
         1
         for f in features
@@ -143,7 +157,8 @@ def main():
     print(f"Wrote {OUT}")
     print(
         f"  total: {n_total}  (metro: {by_mode['metro']}, tram: {by_mode['tram']}, "
-        f"bus_station: {by_mode['bus_station']}, bus_stop: {by_mode['bus']})"
+        f"bus_station: {by_mode['bus_station']}, bus_stop: {by_mode['bus']}, "
+        f"aerialway: {by_mode['aerialway']})"
     )
     print(f"  with a name:    {n_named}  (unnamed: {n_total - n_named})")
     print("Next: npm run retile:transit")

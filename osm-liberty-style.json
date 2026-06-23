@@ -1601,23 +1601,24 @@
     },
 
     {
-      "id": "poi_aerialway_station",
+      "id": "tr_aerialway",
       "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "poi",
+      "source": "transit",
+      "source-layer": "transit",
       "minzoom": 11,
-      "filter": ["any", ["==", "class", "aerialway"], ["==", "subclass", "aerialway"]],
+      "filter": ["==", "mode", "aerialway"],
       "layout": {
         "icon-image": "aerialway_11",
         "icon-size": { "base": 1, "stops": [[11, 1.4], [16, 1.8]] },
-        "text-field": ["coalesce", ["get", "name:ar"], ["get", "name:fr"], ["get", "name"], "Téléphérique"],
-        "text-font": ["Open Sans Bold", "Arial Unicode MS Bold"],
+        "text-field": ["coalesce", ["get", "name_fr"], ["get", "name"], ["get", "name_ar"], "Téléphérique"],
+        "text-font": ["Open Sans Bold", "Noto Sans Arabic", "Arial Unicode MS Bold"],
         "text-size": 12,
         "text-anchor": "top",
         "text-offset": [0, 1.2],
         "text-max-width": 10,
         "icon-allow-overlap": true,
-        "text-optional": true
+        "text-allow-overlap": true,
+        "text-optional": false
       },
       "paint": { "text-color": "#E53935", "text-halo-color": "#ffffff", "text-halo-width": 2 }
     },
